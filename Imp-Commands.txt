@@ -1,0 +1,2 @@
+for run Program :- php artisan serve
+After creating new Database :- php artisan key:generate
