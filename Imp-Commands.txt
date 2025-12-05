@@ -1,2 +1,13 @@
-for run Program :- php artisan serve
+Run Program :- php artisan serve
 After creating new Database :- php artisan key:generate
+
+If you want to clear the cashe and config :-
+                php artisan config:clear
+                php artisan cache:clear
+                php artisan config:cache
+
+After applying css :-   npm install 
+                        npm run dev
+After Creating controller :-  php artisan make:controller SiteControlle
+
+After any update in migration code :- php artisan migrate
