@@ -10,4 +10,6 @@ After applying css :-   npm install
                         npm run dev
 After Creating controller :-  php artisan make:controller SiteControlle
 
+For make new seeder :- php artisan make:seeder VentarDemoSeeder
+
 After any update in migration code :- php artisan migrate
