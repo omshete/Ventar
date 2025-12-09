@@ -3,63 +3,33 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\HomeSection;
 use Illuminate\Http\Request;
 
 class HomeSectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $sections = HomeSection::orderBy('section_key')->paginate(10);
+        return view('admin.home_sections.index', compact('sections'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function edit(HomeSection $home_section)
     {
-        //
+        return view('admin.home_sections.edit', ['section' => $home_section]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(Request $request, HomeSection $home_section)
     {
-        //
-    }
+        $data = $request->validate([
+            'title'   => ['nullable','string'],
+            'content' => ['nullable','string'],
+            'order'   => ['nullable','integer'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $home_section->update($data);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('admin.home-sections.index')
+            ->with('success','Section updated.');
     }
 }

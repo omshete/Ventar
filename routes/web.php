@@ -25,6 +25,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.show');
     Route::post('login', [AuthController::class, 'login'])->name('login');
 
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('settings', [SettingController::class, 'save'])->name('settings.save');
+
     // 2) Protected routes: USE admin.auth here
     Route::middleware('admin.auth')->group(function () {
 
