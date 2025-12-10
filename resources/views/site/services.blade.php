@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','Services')
+
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-16">
     <h1 class="text-3xl font-bold mb-6">Services</h1>

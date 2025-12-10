@@ -3,22 +3,25 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\HomeSetting;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
+    public function register()
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
+    public function boot()
     {
-        //
+        // Share the first HomeSetting record with all views as $homeSetting
+        // Wrap in try/catch to avoid errors when DB or model isn't ready.
+        try {
+            $homeSetting = HomeSetting::first();
+        } catch (\Throwable $e) {
+            $homeSetting = null;
+        }
+
+        view()->share('homeSetting', $homeSetting);
     }
 }
