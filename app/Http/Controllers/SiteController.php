@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Models\Contact;
 use App\Models\BlogPost;
 use App\Models\TeamMember;
+use App\Models\Service;
 use App\Mail\ContactMessageMail;
 use Illuminate\Support\Facades\Mail;
 
