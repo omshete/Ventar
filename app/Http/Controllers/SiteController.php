@@ -32,23 +32,51 @@ class SiteController extends Controller
      * Homepage
      */
     public function index()
-    {
-        // example: show latest 3 blogs on home if BlogPost exists
-        try {
-            $blogs = BlogPost::where('is_published', 1)
-                ->orderBy('published_at', 'desc')
-                ->take(3)
-                ->get();
-        } catch (\Throwable $e) {
-            $blogs = collect();
-        }
-
-        // pass settings if your home view uses them
-        $homeTitle = $this->getSettingValue('hero_title', 'Ventar – Your IT Service Partner');
-        $homeText  = $this->getSettingValue('hero_text', 'Ventar is an IT service providing company delivering scalable, secure and modern digital solutions.');
-
-        return view('site.index', compact('blogs', 'homeTitle', 'homeText'));
+{
+    try {
+        // Fix 1: Use correct model name + published services
+        $services = Service::where('is_active', 1) // Add this if you have is_active field
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'asc')
+            ->take(3)
+            ->get();
+        
+        // Debug: Log services count
+        \Log::info('Home page services count: ' . $services->count());
+        
+    } catch (\Throwable $e) {
+        \Log::error('Services load error: ' . $e->getMessage());
+        $services = collect();
     }
+
+    try {
+        $blogs = BlogPost::where('is_published', 1)
+            ->orderBy('published_at', 'desc')
+            ->take(3)
+            ->get();
+    } catch (\Throwable $e) {
+        $blogs = collect();
+    }
+
+    // Home settings
+    $homeTitle = $this->getSettingValue('hero_title', 'Ventar – Your IT Service Partner');
+    $homeText  = $this->getSettingValue('hero_text', 'Ventar delivers scalable, secure, and modern digital solutions.');
+
+    $homeSetting = (object) [
+        'site_title'        => $this->getSettingValue('site_title', 'Ventar – IT Services'),
+        'logo'              => $this->getSettingValue('logo', null),
+        'footer_company'    => $this->getSettingValue('footer_company', 'Ventar'),
+        'footer_description'=> $this->getSettingValue('footer_description', 'Smart IT solutions.'),
+        'footer_email'      => $this->getSettingValue('footer_email', 'info@ventar.com'),
+        'footer_phone'      => $this->getSettingValue('footer_phone', '+91-0000000000'),
+        'footer_linkedin'   => $this->getSettingValue('footer_linkedin', null),
+        'footer_instagram'  => $this->getSettingValue('footer_instagram', null),
+    ];
+
+    return view('site.home', compact('blogs', 'services', 'homeTitle', 'homeText', 'homeSetting'));
+}
+
+
 
     /**
      * About page
@@ -64,10 +92,7 @@ class SiteController extends Controller
      */
     public function services()
     {
-        // Fetch all services from database (Service model)
-        $services = \App\Models\Service::orderBy('id', 'desc')->get();
-
-        // Send $services to the Blade view
+        // ...
         return view('site.services', compact('services'));
     }
 
@@ -98,18 +123,12 @@ class SiteController extends Controller
     /**
      * Blogs listing page
      */
-    public function blogs()
+   public function blogs()
     {
-        try {
-            $blogs = BlogPost::where('is_published', 1)
-                ->orderBy('published_at', 'desc')
-                ->paginate(9);
-        } catch (\Throwable $e) {
-            $blogs = collect();
-        }
-
+        // ...
         return view('site.blogs', compact('blogs'));
     }
+
 
     /**
      * Contact page (show)

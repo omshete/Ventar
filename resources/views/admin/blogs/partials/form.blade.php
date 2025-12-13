@@ -1,51 +1,23 @@
-@if ($errors->any())
-    <div class="bg-red-100 text-red-700 px-4 py-2 rounded text-sm">
-        {{ $errors->first() }}
-    </div>
-@endif
+@extends('layouts.app')
 
-<div>
-    <label class="block text-sm font-medium mb-1">Title</label>
-    <input type="text" name="title"
-           value="{{ old('title', $blog->title ?? '') }}"
-           class="w-full border rounded-lg px-3 py-2" required>
-</div>
-
-<div>
-    <label class="block text-sm font-medium mb-1">Excerpt</label>
-    <textarea name="excerpt" rows="3"
-              class="w-full border rounded-lg px-3 py-2">{{ old('excerpt', $blog->excerpt ?? '') }}</textarea>
-</div>
-
-<div>
-    <label class="block text-sm font-medium mb-1">Content</label>
-    <textarea name="content" rows="5"
-              class="w-full border rounded-lg px-3 py-2">{{ old('content', $blog->content ?? '') }}</textarea>
-</div>
-
-<div>
-    <label class="block text-sm font-medium mb-1">Image</label>
-    @if (!empty($blog?->image_path))
-        <div class="mb-2">
-            <img src="{{ asset('storage/'.$blog->image_path) }}"
-                 alt="Current image"
-                 class="h-20 rounded object-cover">
+@section('content')
+<div class="max-w-3xl mx-auto px-4 py-16 bg-gradient-to-b from-slate-50 to-white min-h-screen">
+    <article>
+        <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">{{ $blog->title }}</h1>
+        <div class="text-sm text-slate-500 mb-8 flex items-center gap-4">
+            <span>Published {{ optional($blog->published_at)->format('d M Y') }}</span>
+            <span>•</span>
+            <span>5 min read</span>
         </div>
-    @endif
-    <input type="file" name="image"
-           class="w-full border rounded-lg px-3 py-2 bg-white">
+        <div class="prose prose-lg max-w-none text-slate-800 leading-relaxed">
+            {!! $blog->content !!}
+        </div>
+    </article>
+    
+    <div class="mt-20 pt-12 border-t border-slate-200">
+        <a href="{{ route('blogs') }}" class="text-red-500 font-bold hover:underline flex items-center gap-2">
+            ← Back to Blogs
+        </a>
+    </div>
 </div>
-
-<div class="flex items-center mt-2">
-    <input type="checkbox" id="is_published" name="is_published" value="1"
-           class="mr-2"
-           {{ old('is_published', $blog->is_published ?? false) ? 'checked' : '' }}>
-    <label for="is_published" class="text-sm">Published</label>
-</div>
-
-<div class="mt-4">
-    <button class="bg-red-500 text-white px-4 py-2 rounded-lg">
-        {{ isset($blog) && $blog ? 'Update' : 'Save' }}
-    </button>
-    <a href="{{ route('admin.blogs.index') }}" class="text-sm ml-2">Cancel</a>
-</div>
+@endsection

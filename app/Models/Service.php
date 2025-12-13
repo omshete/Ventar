@@ -3,15 +3,36 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Service extends Model
 {
     protected $fillable = [
         'title',
-        'slug',
+        'slug', 
+        'icon',
         'short_description',
         'description',
-        'icon',
-        'order',
+        'is_active',
+        'sort_order'
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean'
+    ];
+
+    // AUTO GENERATE SLUG
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($service) {
+            if (empty($service->slug)) {
+                $service->slug = Str::slug($service->title);
+            }
+            if (is_null($service->is_active)) {
+                $service->is_active = true;
+            }
+        });
+    }
 }
