@@ -24,10 +24,24 @@
 </div>
 
 <div>
-    <label class="block text-sm font-medium mb-1">Order</label>
+    <label class="block text-sm font-medium mb-1">Order (old field, optional)</label>
     <input type="number" name="order"
            value="{{ old('order', $service->order ?? 0) }}"
            class="w-full border rounded-lg px-3 py-2">
+</div>
+
+<div>
+    <label class="block text-sm font-medium mb-1">Sort Order (used on site)</label>
+    <input type="number" name="sort_order"
+           value="{{ old('sort_order', $service->sort_order ?? 0) }}"
+           class="w-full border rounded-lg px-3 py-2">
+</div>
+
+<div class="flex items-center space-x-2">
+    <input type="hidden" name="is_active" value="0">
+    <input type="checkbox" id="is_active" name="is_active" value="1"
+           @checked(old('is_active', $service->is_active ?? true))>
+    <label for="is_active" class="text-sm font-medium">Active</label>
 </div>
 
 <button class="bg-red-500 text-white px-4 py-2 rounded-lg">

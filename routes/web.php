@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\HomeSettingController;
+use App\Http\Controllers\Admin\CustomerController;
+
 /*
 |--------------------------------------------------------------------------
 | Public site routes
@@ -15,12 +17,19 @@ use App\Http\Controllers\Admin\HomeSettingController;
 */
 
 Route::get('/', [SiteController::class, 'index'])->name('index');
+//services listing page
 Route::get('/services', [SiteController::class, 'services'])->name('services');
+// Service detail page (by id or slug)
+Route::get('/services/{service}', [SiteController::class, 'serviceDetail'])->name('services.show');
+
 Route::get('/about-us', [SiteController::class, 'about'])->name('about');
 Route::get('/our-aim', [SiteController::class, 'aim'])->name('aim');
 Route::get('/team', [SiteController::class, 'team'])->name('team');
-Route::get('/blogs/{blog}', [SiteController::class, 'showBlog'])->name('blogs.show');
-Route::get('/blogs/{slug}', [SiteController::class, 'blogDetail'])->name('blog.detail');
+// Blogs listing page
+Route::get('/blogs', [SiteController::class, 'blogs'])->name('blogs.index');
+
+// Blog detail page (by slug or id)
+Route::get('/blogs/{blog}', [SiteController::class, 'blogDetail'])->name('blogs.show');
 Route::get('/contact-us', [SiteController::class, 'contact'])->name('contact');
 
 
@@ -50,9 +59,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Services CRUD
         Route::resource('services', ServiceController::class);
+        
+        // Our Story edit + update
+        Route::prefix('home')->name('home.')->group(function () {
+        Route::get('our-story', [HomeStoryController::class, 'index'])->name('our-story.index');
+        Route::get('edit', [HomeStoryController::class, 'edit'])->name('our-story.edit');
+        });
 
         // Blogs CRUD
         Route::resource('blogs', BlogController::class);
+
+        // Customers CRUD
+        Route::resource('customers', CustomerController::class)->except(['show']);
 
         // Team CRUD
         Route::resource('team', TeamController::class);

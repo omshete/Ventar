@@ -24,6 +24,7 @@
                     <a href="{{ route('blogs.show', $blog->slug ?? $blog->id) }}" class="text-red-500 font-semibold hover:underline flex items-center gap-2 text-lg">
                         Read More <span>→</span>
                     </a>
+
                 </article>
             @empty
                 <div class="col-span-full text-center py-20">

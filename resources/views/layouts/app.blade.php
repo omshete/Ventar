@@ -5,12 +5,15 @@
     <title>{{ $homeSetting->site_title ?? 'Ventar - IT Services' }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @vite('resources/css/app.css')
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body class="bg-slate-50">
     {{-- Loader --}}
     <div id="loader" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-red-500 to-pink-500">
         <div class="relative flex flex-col items-center">
-            {{-- Logo: prefer uploaded logo in storage, fallback to public image --}}
             @if(!empty($homeSetting->logo))
                 <img src="{{ asset('storage/'.$homeSetting->logo) }}" alt="{{ $homeSetting->site_title ?? 'Ventar' }}" class="w-32 h-32 mb-4">
             @else
@@ -18,7 +21,9 @@
             @endif
 
             <div class="paper-plane w-8 h-8 bg-white rounded-full shadow-lg"></div>
-            <p class="mt-4 text-white text-lg font-semibold">Loading {{ $homeSetting->site_title ?? 'Ventar' }}...</p>
+            <p class="mt-4 text-white text-lg font-semibold">
+                Loading {{ $homeSetting->site_title ?? 'Ventar' }}...
+            </p>
         </div>
     </div>
 
@@ -49,7 +54,7 @@
                 {{-- ABOUT DROPDOWN DESKTOP --}}
                 <div class="relative group">
                     <button class="nav-link inline-flex items-center gap-1 py-2">
-                        About Us <span class="text-sm">▼</span> 
+                        About Us <span class="text-sm">▼</span>
                     </button>
 
                     <div class="absolute left-0 mt-2 w-40 bg-white text-slate-800 shadow-lg rounded-md
@@ -142,9 +147,6 @@
         .mobile-sub-link { transition: 0.2s ease; }
         .mobile-sub-link:hover { transform: translateX(6px); }
 
-        /* ============================
-           SCROLL ANIMATION FOR SECTIONS
-           ============================ */
         .scroll-animate {
             opacity: 0;
             transform: translateY(40px);
@@ -162,36 +164,96 @@
         @yield('content')
     </main>
 
-    {{-- Footer --}}
-    <footer class="bg-slate-900 text-slate-200 mt-16">
-        <div class="max-w-6xl mx-auto px-4 py-8 grid md:grid-cols-3 gap-6 text-sm">
+    {{-- FOOTER --}}
+    <footer class="bg-[#333333] text-slate-100 mt-16">
+
+        <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10 text-sm">
+
+            {{-- COMPANY --}}
             <div>
-                <h4 class="font-semibold mb-2">{{ $homeSetting->footer_company ?? 'Ventar - IT Services' }}</h4>
-                <p>{{ $homeSetting->footer_description ?? 'Smart IT solutions for modern businesses.' }}</p>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-2">Contact</h4>
-                <p>Email: {{ $homeSetting->footer_email ?? 'info@ventar.com' }}</p>
-                <p>Phone: {{ $homeSetting->footer_phone ?? '+91-0000000000' }}</p>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-2">Follow us</h4>
-                <p>
-                    @if(!empty($homeSetting->footer_linkedin)) <a href="{{ $homeSetting->footer_linkedin }}" target="_blank" class="hover:underline">LinkedIn</a> | @endif
-                    @if(!empty($homeSetting->footer_instagram)) <a href="{{ $homeSetting->footer_instagram }}" target="_blank" class="hover:underline">Instagram</a> | @endif
-                    @if(!empty($homeSetting->footer_facebook)) <a href="{{ $homeSetting->footer_facebook }}" target="_blank" class="hover:underline">Facebook</a> | @endif
-                    @if(!empty($homeSetting->footer_x)) <a href="{{ $homeSetting->footer_x }}" target="_blank" class="hover:underline">X</a> @endif
+                <h3 class="text-2xl font-semibold mb-4">
+                    {{ $homeSetting->footer_company ?? 'Ventar IT Solutions' }}
+                </h3>
+                <p class="text-slate-300">
+                    {{ $homeSetting->footer_description ?? 'Your trusted IT partner.' }}
                 </p>
             </div>
+
+            {{-- CONTACT --}}
+            <div>
+                <h4 class="text-lg font-semibold mb-4">
+                    <a href="{{ url('/contact-us') }}"
+                            class="mobile-link">
+                                Contact Us:-
+                            </a>
+                </h4>
+                <div class="space-y-3 text-slate-300">
+                    <div>✉️ {{ $homeSetting->footer_email ?? 'info@ventar.in' }}</div>
+                    <div>📞 {{ $homeSetting->footer_phone ?? '+91 9860036529' }}</div>
+                    <div>📍 {{ $homeSetting->footer_address ?? 'Pune, Maharashtra' }}</div>
+                </div>
+            </div>
+
+            {{-- FOLLOW US --}}
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us:-</h4>
+
+                    <div class="flex items-center gap-6">
+
+                        {{-- X / Twitter --}}
+                        <a href="{{ $homeSetting->footer_x ?? 'https://x.com/ventarit?s=21' }}"
+                        target="_blank" rel="noopener noreferrer"
+                        class="w-12 h-12 rounded-full bg-black
+                                flex items-center justify-center
+                                text-white text-lg
+                                transition hover:scale-110">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+
+                        {{-- LinkedIn --}}
+                        <a href="{{ $homeSetting->footer_linkedin ?? 'https://www.linkedin.com/company/ventar-it-solutions/posts/?feedView=all&viewAsMember=true' }}"
+                        target="_blank" rel="noopener noreferrer"
+                        class="w-12 h-12 rounded-full bg-[#0A66C2]
+                                flex items-center justify-center
+                                text-white text-lg
+                                transition hover:scale-110">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+
+                        {{-- Facebook --}}
+                        <a href="{{ $homeSetting->footer_facebook ?? 'https://www.facebook.com/people/Ventar/61581899771931/?mibextid=wwXIfr&rdid=tXXeCG1dnzKEZLGP&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252F1CuLXisNW9%252F%253Fmibextid%253DwwXIfr' }}"
+                        target="_blank" rel="noopener noreferrer"
+                        class="w-12 h-12 rounded-full bg-[#1877F2]
+                                flex items-center justify-center
+                                text-white text-lg
+                                transition hover:scale-110">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+
+                        {{-- Instagram --}}
+                        <a href="{{ $homeSetting->footer_instagram ?? 'https://www.instagram.com/ventar_it?igsh=cGwyaThuaWxubW1z&utm_source=qr' }}"
+                        target="_blank" rel="noopener noreferrer"
+                        class="w-12 h-12 rounded-full
+                                bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500
+                                flex items-center justify-center
+                                text-white text-lg
+                                transition hover:scale-110">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="text-center text-xs py-3 border-t border-slate-700">
-            © {{ date('Y') }} {{ $homeSetting->footer_company ?? 'Ventar' }}. All rights reserved.
+
+        {{-- COPYRIGHT --}}
+        <div class="border-t border-slate-600 text-center py-4 text-xs text-slate-300">
+            © {{ date('Y') }} {{ $homeSetting->footer_company ?? 'Ventar IT Solutions' }}. All rights reserved.
         </div>
     </footer>
 
     {{-- Loader + Scroll animation scripts --}}
     <script>
-        // Loader fade-out
         window.addEventListener('load', function () {
             const loader = document.getElementById('loader');
             if (loader) {
@@ -201,10 +263,8 @@
             }
         });
 
-        // Scroll animations for sections
         document.addEventListener('DOMContentLoaded', function () {
             const animatedSections = document.querySelectorAll('.scroll-animate');
-
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -213,13 +273,10 @@
                             observer.unobserve(entry.target);
                         }
                     });
-                }, {
-                    threshold: 0.2
-                });
+                }, { threshold: 0.2 });
 
                 animatedSections.forEach(section => observer.observe(section));
             } else {
-                // Fallback for older browsers
                 animatedSections.forEach(section => section.classList.add('in-view'));
             }
         });
