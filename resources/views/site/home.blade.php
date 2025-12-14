@@ -78,10 +78,9 @@
             {{-- CTA BELOW SERVICES --}}
             <section class="text-center">
                 <div class="max-w-4xl mx-auto px-6">
-                    <p class="text-xl md:text-2xl mb-12 max-w-2xl mx-auto opacity-90">Get free consultation today</p>
-                    <a href="{{ url('/contact-us') }}"
+                    <a href="{{ url('/services') }}"
                        class="inline-block bg-white text-red-500 font-black text-xl px-16 py-4 rounded-full shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-2">
-                        Get Free Quote
+                        View All Services 
                     </a>
                 </div>
             </section>

@@ -16,28 +16,29 @@ class HomeStoryController extends Controller
 
     public function edit()
     {
-        $story = HomeStory::firstOrCreate([]);
+        $story = HomeStory::first();
         return view('admin.home.edit', compact('story'));
     }
 
-    public function update(Request $request, HomeStory $story)
+    public function update(Request $request)
     {
-        $data = $request->validate([
-            'title'        => 'required|string|max:255',
-            'paragraph_1'  => 'required|string',
-            'paragraph_2'  => 'nullable|string',
-            'paragraph_3'  => 'nullable|string',
-            'side_title'   => 'required|string|max:255',
-            'bullet_1'     => 'nullable|string|max:255',
-            'bullet_2'     => 'nullable|string|max:255',
-            'bullet_3'     => 'nullable|string|max:255',
-            'bullet_4'     => 'nullable|string|max:255',
+        $story = HomeStory::firstOrCreate([]);
+        
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'paragraph_1' => 'required|string',
+            'paragraph_2' => 'nullable|string',
+            'paragraph_3' => 'nullable|string',
+            'side_title' => 'required|string|max:255',
+            'bullet_1' => 'nullable|string|max:255',
+            'bullet_2' => 'nullable|string|max:255',
+            'bullet_3' => 'nullable|string|max:255',
+            'bullet_4' => 'nullable|string|max:255',
         ]);
 
-        $story->update($data);
+        $story->update($validated);
 
-        return redirect()
-            ->route('admin.home.our-story.index')
-            ->with('success', 'Our Story content updated successfully.');
+        return redirect()->route('admin.home.index')
+            ->with('success', 'Home content updated successfully!');
     }
 }

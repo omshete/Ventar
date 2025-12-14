@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ventar Admin - @yield('title','Dashboard')</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, login-scale=1">
     @vite('resources/css/app.css')
 </head>
 <body class="bg-slate-100">
@@ -36,19 +36,19 @@
                 Home Sections
             </a>
 
-            {{-- Our Story menu item (only if route exists) --}}
-            @if (Route::has('admin.home.our-story.index'))
+            {{-- Home Content menu item --}}
+            @if (Route::has('admin.home.index'))
                 <a href="{{ route('admin.home.index') }}" class="block hover:text-white">
-                    Our Story
+                    Home Content
                 </a>
             @endif
 
-            {{-- Customers menu item --}}
+
             <a href="{{ route('admin.customers.index') }}" class="block hover:text-white">
                 Customers
             </a>
 
-            {{-- Only show Settings link when the route exists to avoid errors --}}
+            {{-- Settings menu item --}}
             @if (Route::has('admin.home_settings.index'))
                 <a href="{{ route('admin.home_settings.index') }}" class="block hover:text-white">
                     Settings / Logo
@@ -71,7 +71,6 @@
                 @yield('title','Dashboard')
             </h1>
 
-            {{-- Simple mobile label (optional) --}}
             <span class="md:hidden text-xs text-slate-500">
                 Ventar Admin
             </span>

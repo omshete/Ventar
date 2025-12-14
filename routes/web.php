@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\HomeSettingController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\HomeStoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,23 +18,15 @@ use App\Http\Controllers\Admin\CustomerController;
 */
 
 Route::get('/', [SiteController::class, 'index'])->name('index');
-//services listing page
 Route::get('/services', [SiteController::class, 'services'])->name('services');
-// Service detail page (by id or slug)
 Route::get('/services/{service}', [SiteController::class, 'serviceDetail'])->name('services.show');
 
 Route::get('/about-us', [SiteController::class, 'about'])->name('about');
 Route::get('/our-aim', [SiteController::class, 'aim'])->name('aim');
 Route::get('/team', [SiteController::class, 'team'])->name('team');
-// Blogs listing page
 Route::get('/blogs', [SiteController::class, 'blogs'])->name('blogs.index');
-
-// Blog detail page (by slug or id)
 Route::get('/blogs/{blog}', [SiteController::class, 'blogDetail'])->name('blogs.show');
 Route::get('/contact-us', [SiteController::class, 'contact'])->name('contact');
-
-
-Route::get('/contact-us', [SiteController::class, 'contact'])->name('contact.show');
 Route::post('/contact-us', [SiteController::class, 'submitContact'])->name('contact.submit');
 
 /*
@@ -44,11 +37,11 @@ Route::post('/contact-us', [SiteController::class, 'submitContact'])->name('cont
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Login (no admin.auth)
+    // Public login routes (no auth required)
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.show');
     Route::post('login', [AuthController::class, 'login'])->name('login');
 
-    // Settings page (form + save) that must be accessible only for logged-in admin
+    // Protected routes (require admin.auth middleware)
     Route::middleware('admin.auth')->group(function () {
 
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -60,11 +53,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Services CRUD
         Route::resource('services', ServiceController::class);
         
-        // Our Story edit + update
-        Route::prefix('home')->name('home.')->group(function () {
-        Route::get('our-story', [HomeStoryController::class, 'index'])->name('our-story.index');
-        Route::get('edit', [HomeStoryController::class, 'edit'])->name('our-story.edit');
-        });
+        // Our Story routes - FIXED
+          Route::get('home', [HomeStoryController::class, 'index'])->name('home.index');
+        Route::get('home/edit', [HomeStoryController::class, 'edit'])->name('home.edit');
+        Route::put('home', [HomeStoryController::class, 'update'])->name('home.update');
 
         // Blogs CRUD
         Route::resource('blogs', BlogController::class);
@@ -75,11 +67,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Team CRUD
         Route::resource('team', TeamController::class);
 
-        // Home sections CRUD (index, create, store, edit, update, destroy)
+        // Home sections CRUD
         Route::resource('home-sections', HomeSectionController::class);
 
-        // Home Settings combined screen (edit + update)
-        Route::resource('home_settings', HomeSettingController::class);
+        // Home Settings
+        Route::resource('home_settings', HomeSettingController::class)->only(['index', 'edit', 'update']);
     });
 });
-

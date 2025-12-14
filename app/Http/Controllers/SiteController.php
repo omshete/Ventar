@@ -71,17 +71,17 @@ class SiteController extends Controller
         $homeText  = $this->getSettingValue('hero_text', 'Ventar delivers scalable, secure, and modern digital solutions.');
 
         $homeSetting = (object) [
-            'site_title'         => $this->getSettingValue('site_title', 'Ventar – IT Services'),
-            'logo'               => $this->getSettingValue('logo', null),
-            'footer_company'     => $this->getSettingValue('footer_company', 'Ventar'),
-            'footer_description' => $this->getSettingValue('footer_description', 'Smart IT solutions.'),
-            'footer_email'       => $this->getSettingValue('footer_email', 'info@ventar.com'),
-            'footer_phone'       => $this->getSettingValue('footer_phone', '+91-0000000000'),
-            'footer_linkedin'    => $this->getSettingValue('footer_linkedin', null),
-            'footer_instagram'   => $this->getSettingValue('footer_instagram', null),
+            'site_title'          => $this->getSettingValue('site_title', 'Ventar – IT Services'),
+            'logo'                => $this->getSettingValue('logo', null),
+            'footer_company'      => $this->getSettingValue('footer_company', 'Ventar'),
+            'footer_description'  => $this->getSettingValue('footer_description', 'Smart IT solutions.'),
+            'footer_email'        => $this->getSettingValue('footer_email', 'info@ventar.com'),
+            'footer_phone'        => $this->getSettingValue('footer_phone', '+91-0000000000'),
+            'footer_linkedin'     => $this->getSettingValue('footer_linkedin', null),
+            'footer_instagram'    => $this->getSettingValue('footer_instagram', null),
         ];
 
-        // NEW: load Our Story content (single record)
+        // ✅ OUR STORY - ALREADY PERFECT!
         try {
             $ourStory = HomeStory::first();
         } catch (\Throwable $e) {
@@ -96,8 +96,7 @@ class SiteController extends Controller
             'homeTitle',
             'homeText',
             'homeSetting',
-            // NEW:
-            'ourStory'
+            'ourStory'  // ✅ PASSES TO VIEW CORRECTLY
         ));
     }
 
@@ -207,11 +206,11 @@ class SiteController extends Controller
     public function submitContact(Request $request)
     {
         $data = $request->validate([
-            'name'    => ['required', 'string', 'max:255'],
-            'email'   => ['required', 'email', 'max:255'],
-            'phone'   => ['nullable', 'string', 'max:50'],
-            'subject' => ['required', 'string', 'max:255'],
-            'message' => ['required', 'string', 'min:5'],
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'email', 'max:255'],
+            'phone'    => ['nullable', 'string', 'max:50'],
+            'subject'  => ['required', 'string', 'max:255'],
+            'message'  => ['required', 'string', 'min:5'],
         ]);
 
         Contact::create($data);
