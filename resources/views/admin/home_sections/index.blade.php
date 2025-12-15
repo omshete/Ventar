@@ -3,60 +3,45 @@
 @section('title', 'Home Sections')
 
 @section('content')
-<div class="mb-4 flex justify-between items-center">
-    <h2 class="text-xl font-semibold">Home Sections</h2>
-    <a href="{{ route('admin.home-sections.create') }}"
-       class="bg-red-500 text-white text-sm px-4 py-2 rounded-lg">
-        + Add Section
-    </a>
+<div class="mb-6 flex justify-between items-center">
+    <h2 class="text-2xl font-semibold text-slate-800">All Homepage Sections</h2>
 </div>
 
-@if(session('success'))
-    <div class="bg-green-100 text-green-700 px-4 py-2 rounded text-sm mb-4">
-        {{ session('success') }}
-    </div>
-@endif
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    @foreach(['hero' => 'Hero Section', 'services_intro' => 'Services Intro', 'our_story' => 'Our Story', 'blogs_intro' => 'Blogs Intro', 'customers_intro' => 'Customers Intro'] as $type => $label)
+        @php $section = \App\Models\HomeSection::where('section_type', $type)->first(); @endphp
+        <div class="bg-white rounded-xl shadow-lg border border-slate-100 p-6 hover:shadow-xl transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fas fa-{{ $type == 'hero' ? 'rocket' : ($type == 'services_intro' ? 'cogs' : ($type == 'our_story' ? 'book' : ($type == 'blogs_intro' ? 'blog' : 'users'))) }} text-red-500"></i>
+                    {{ $label }}
+                </h3>
+                <span class="px-2 py-1 {{ $section && $section->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }} text-xs rounded-full font-medium">
+                    {{ $section && $section->is_active ? 'Active' : 'Inactive' }}
+                </span>
+            </div>
+            @if($section && $section->title)
+                <div class="text-sm text-slate-600 mb-4 truncate" title="{{ $section->title }}">{{ $section->title }}</div>
+            @endif
+            <div class="flex gap-2">
+                <a href="{{ route('admin.home_sections.edit', $type) }}"
+                   class="flex-1 bg-red-500 text-white text-center py-2 px-4 rounded-lg hover:bg-red-600 transition font-medium text-sm">
+                    Edit
+                </a>
+                @if($section)
+                    <form action="{{ route('admin.home_sections.destroy', $type) }}" method="POST" class="flex-1" onsubmit="return confirm('Delete {{ $label }}?')">
+                        @csrf @method('DELETE')
+                        <button class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 px-4 rounded-lg transition font-medium text-sm">Delete</button>
+                    </form>
+                @endif
+            </div>
+        </div>
+    @endforeach
+</div>
 
-<table class="min-w-full bg-white rounded-xl shadow text-sm">
-    <thead class="bg-slate-100 text-left">
-        <tr>
-            <th class="px-4 py-2">Key</th>
-            <th class="px-4 py-2">Title</th>
-            <th class="px-4 py-2">Order</th>
-            <th class="px-4 py-2">Updated</th>
-            <th class="px-4 py-2 text-right">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse($sections as $section)
-        <tr class="border-t">
-            <td class="px-4 py-2 font-mono text-xs">{{ $section->section_key }}</td>
-            <td class="px-4 py-2">{{ $section->title }}</td>
-            <td class="px-4 py-2">{{ $section->order }}</td>
-            <td class="px-4 py-2 text-xs">{{ $section->updated_at->format('d M Y') }}</td>
-            <td class="px-4 py-2 text-right space-x-2">
-                <a href="{{ route('admin.home-sections.edit', $section) }}"
-                   class="text-blue-600 text-xs">Edit</a>
-
-                <form action="{{ route('admin.home-sections.destroy', $section) }}"
-                      method="POST" class="inline"
-                      onsubmit="return confirm('Delete this section?');">
-                    @csrf @method('DELETE')
-                    <button class="text-red-600 text-xs">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @empty
-        <tr>
-            <td colspan="5" class="px-4 py-4 text-center text-slate-500">
-                No sections added yet.
-            </td>
-        </tr>
-        @endforelse
-    </tbody>
-</table>
-
-<div class="mt-4">
-    {{ $sections->links() }}
+<div class="text-center py-12 bg-slate-50 rounded-xl border-2 border-dashed border-slate-200">
+    <i class="fas fa-info-circle text-4xl text-slate-400 mb-4"></i>
+    <p class="text-lg font-semibold text-slate-700 mb-2">Click any card above to edit that homepage section</p>
+    <p class="text-sm text-slate-500">Each section can be customized independently</p>
 </div>
 @endsection

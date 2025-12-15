@@ -68,7 +68,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('team', TeamController::class);
 
         // Home sections CRUD
-        Route::resource('home-sections', HomeSectionController::class);
+        Route::resource('home-sections', HomeSectionController::class)
+        ->names([
+            'index'   => 'home_sections.index',
+            'create'  => 'home_sections.create',
+            'store'   => 'home_sections.store',
+            'edit'    => 'home_sections.edit',
+            'update'  => 'home_sections.update',
+            'destroy' => 'home_sections.destroy',
+        ]);
 
         // Home Settings
         Route::resource('home_settings', HomeSettingController::class)->only(['index', 'edit', 'update']);

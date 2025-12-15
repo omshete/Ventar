@@ -20,7 +20,8 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
+        // FIXED: Use default 'web' guard instead of 'admin'
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
         }
@@ -32,7 +33,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
+        // FIXED: Use default guard
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

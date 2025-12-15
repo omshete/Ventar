@@ -1,15 +1,10 @@
 @extends('admin.layouts.app')
-
-@section('title', 'Edit Home Section')
-
+@section('title', 'Edit ' . ucfirst(str_replace('_', ' ', $homeSection->section_type)))
 @section('content')
-<h2 class="text-xl font-semibold mb-4">Edit Home Section</h2>
+<h2 class="text-2xl font-semibold mb-6 text-slate-800">Edit {{ ucfirst(str_replace('_', ' ', $homeSection->section_type)) }}</h2>
 
-<form method="POST"
-      action="{{ route('admin.home-sections.update', $section) }}"
-      class="space-y-4 max-w-2xl bg-white p-6 rounded-xl shadow">
-    @csrf
-    @method('PUT')
-    @include('admin.home_sections.partials.form', ['section' => $section])
+<form method="POST" action="{{ route('admin.home_sections.update', $homeSection->section_type) }}" class="space-y-6 max-w-4xl" enctype="multipart/form-data">
+    @csrf @method('PUT')
+    @include('admin.home_sections.partials.form', ['homeSection' => $homeSection])
 </form>
 @endsection

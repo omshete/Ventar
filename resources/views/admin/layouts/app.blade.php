@@ -32,9 +32,10 @@
                 Team
             </a>
 
-            <a href="{{ route('admin.home-sections.index') }}" class="block hover:text-white">
-                Home Sections
+            <a href="{{ route('admin.home_sections.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                <i class="fas fa-home mr-2"></i>Hero Sections
             </a>
+
 
             {{-- Home Content menu item --}}
             @if (Route::has('admin.home.index'))

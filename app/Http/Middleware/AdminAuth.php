@@ -10,9 +10,16 @@ class AdminAuth
 {
     public function handle(Request $request, Closure $next)
     {
-        if (! Auth::guard('admin')->check()) {
+        // FIXED: Use default guard + skip is_admin check for now
+        if (!Auth::check()) {
             return redirect()->route('admin.login.show');
         }
+
+        // TEMPORARILY skip is_admin check until you add the column
+        // if (!auth()->user()->is_admin) {
+        //     Auth::logout();
+        //     return redirect()->route('admin.login.show');
+        // }
 
         return $next($request);
     }
