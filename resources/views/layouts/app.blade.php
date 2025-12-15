@@ -8,7 +8,6 @@
     <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 <body class="bg-slate-50">
     {{-- Loader --}}
@@ -19,7 +18,6 @@
             @else
                 <img src="{{ asset('images/ventar-logo.png') }}" alt="{{ $homeSetting->site_title ?? 'Ventar' }}" class="w-32 h-32 mb-4">
             @endif
-
             <div class="paper-plane w-8 h-8 bg-white rounded-full shadow-lg"></div>
             <p class="mt-4 text-white text-lg font-semibold">
                 Loading {{ $homeSetting->site_title ?? 'Ventar' }}...
@@ -30,7 +28,6 @@
     {{-- Header / Navbar --}}
     <header class="bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg"
             x-data="{ openMenu:false, openAbout:false }">
-
         <div class="max-w-6xl mx-auto flex items-center justify-between py-4 px-4">
             {{-- LOGO + TITLE --}}
             <div class="flex items-center gap-3 animate-fade-in">
@@ -56,7 +53,6 @@
                     <button class="nav-link inline-flex items-center gap-1 py-2">
                         About Us <span class="text-sm">▼</span>
                     </button>
-
                     <div class="absolute left-0 mt-2 w-40 bg-white text-slate-800 shadow-lg rounded-md
                                 opacity-0 translate-y-2 invisible group-hover:opacity-100 group-hover:visible
                                 group-hover:translate-y-0 transition-all duration-300 ease-out z-50">
@@ -87,7 +83,6 @@
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-5"
              class="md:hidden bg-gradient-to-r from-red-500 to-pink-500 text-white border-t border-white/20">
-
             <nav class="flex flex-col p-4 space-y-3 text-base">
                 <a href="{{ url('/') }}" class="mobile-link">Home</a>
                 <a href="{{ url('/services') }}" class="mobile-link">Services</a>
@@ -99,7 +94,6 @@
                         <span>About Us</span>
                         <span x-text="openAboutMobile ? '▲' : '▼'"></span>
                     </button>
-
                     <div x-show="openAboutMobile"
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 -translate-y-2"
@@ -160,15 +154,13 @@
     </style>
 
     {{-- Page content --}}
-    <main>
+    <main class="min-h-screen">
         @yield('content')
     </main>
 
-    {{-- FOOTER --}}
-    <footer class="bg-[#333333] text-slate-100 mt-16">
-
-        <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10 text-sm">
-
+    {{-- FOOTER - FIXED: Removed mt-16, reduced padding --}}
+    <footer class="bg-[#333333] text-slate-100">
+        <div class="max-w-6xl mx-auto px-6 py-8 grid md:grid-cols-3 gap-8 text-sm">
             {{-- COMPANY --}}
             <div>
                 <h3 class="text-2xl font-semibold mb-4">
@@ -182,10 +174,9 @@
             {{-- CONTACT --}}
             <div>
                 <h4 class="text-lg font-semibold mb-4">
-                    <a href="{{ url('/contact-us') }}"
-                            class="mobile-link">
-                                Contact Us:-
-                            </a>
+                    <a href="{{ url('/contact-us') }}" class="mobile-link">
+                        Contact Us:-
+                    </a>
                 </h4>
                 <div class="space-y-3 text-slate-300">
                     <div>✉️ {{ $homeSetting->footer_email ?? 'info@ventar.in' }}</div>
@@ -195,59 +186,55 @@
             </div>
 
             {{-- FOLLOW US --}}
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Follow Us:-</h4>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Follow Us:-</h4>
+                <div class="flex items-center gap-6">
+                    {{-- X / Twitter --}}
+                    <a href="{{ $homeSetting->footer_x ?? 'https://x.com/ventarit?s=21' }}"
+                       target="_blank" rel="noopener noreferrer"
+                       class="w-12 h-12 rounded-full bg-black
+                               flex items-center justify-center
+                               text-white text-lg
+                               transition hover:scale-110">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
 
-                    <div class="flex items-center gap-6">
+                    {{-- LinkedIn --}}
+                    <a href="{{ $homeSetting->footer_linkedin ?? 'https://www.linkedin.com/company/ventar-it-solutions/posts/?feedView=all&viewAsMember=true' }}"
+                       target="_blank" rel="noopener noreferrer"
+                       class="w-12 h-12 rounded-full bg-[#0A66C2]
+                               flex items-center justify-center
+                               text-white text-lg
+                               transition hover:scale-110">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
 
-                        {{-- X / Twitter --}}
-                        <a href="{{ $homeSetting->footer_x ?? 'https://x.com/ventarit?s=21' }}"
-                        target="_blank" rel="noopener noreferrer"
-                        class="w-12 h-12 rounded-full bg-black
-                                flex items-center justify-center
-                                text-white text-lg
-                                transition hover:scale-110">
-                            <i class="fa-brands fa-x-twitter"></i>
-                        </a>
+                    {{-- Facebook --}}
+                    <a href="{{ $homeSetting->footer_facebook ?? 'https://www.facebook.com/people/Ventar/61581899771931/?mibextid=wwXIfr&rdid=tXXeCG1dnzKEZLGP&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252F1CuLXisNW9%252F%253Fmibextid%253DwwXIfr' }}"
+                       target="_blank" rel="noopener noreferrer"
+                       class="w-12 h-12 rounded-full bg-[#1877F2]
+                               flex items-center justify-center
+                               text-white text-lg
+                               transition hover:scale-110">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
 
-                        {{-- LinkedIn --}}
-                        <a href="{{ $homeSetting->footer_linkedin ?? 'https://www.linkedin.com/company/ventar-it-solutions/posts/?feedView=all&viewAsMember=true' }}"
-                        target="_blank" rel="noopener noreferrer"
-                        class="w-12 h-12 rounded-full bg-[#0A66C2]
-                                flex items-center justify-center
-                                text-white text-lg
-                                transition hover:scale-110">
-                            <i class="fa-brands fa-linkedin-in"></i>
-                        </a>
-
-                        {{-- Facebook --}}
-                        <a href="{{ $homeSetting->footer_facebook ?? 'https://www.facebook.com/people/Ventar/61581899771931/?mibextid=wwXIfr&rdid=tXXeCG1dnzKEZLGP&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252F1CuLXisNW9%252F%253Fmibextid%253DwwXIfr' }}"
-                        target="_blank" rel="noopener noreferrer"
-                        class="w-12 h-12 rounded-full bg-[#1877F2]
-                                flex items-center justify-center
-                                text-white text-lg
-                                transition hover:scale-110">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-
-                        {{-- Instagram --}}
-                        <a href="{{ $homeSetting->footer_instagram ?? 'https://www.instagram.com/ventar_it?igsh=cGwyaThuaWxubW1z&utm_source=qr' }}"
-                        target="_blank" rel="noopener noreferrer"
-                        class="w-12 h-12 rounded-full
-                                bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500
-                                flex items-center justify-center
-                                text-white text-lg
-                                transition hover:scale-110">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-
-                    </div>
+                    {{-- Instagram --}}
+                    <a href="{{ $homeSetting->footer_instagram ?? 'https://www.instagram.com/ventar_it?igsh=cGwyaThuaWxubW1z&utm_source=qr' }}"
+                       target="_blank" rel="noopener noreferrer"
+                       class="w-12 h-12 rounded-full
+                               bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500
+                               flex items-center justify-center
+                               text-white text-lg
+                               transition hover:scale-110">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
         {{-- COPYRIGHT --}}
-        <div class="border-t border-slate-600 text-center py-4 text-xs text-slate-300">
+        <div class="border-t border-slate-600 text-center py-3 text-xs text-slate-300">
             © {{ date('Y') }} {{ $homeSetting->footer_company ?? 'Ventar IT Solutions' }}. All rights reserved.
         </div>
     </footer>

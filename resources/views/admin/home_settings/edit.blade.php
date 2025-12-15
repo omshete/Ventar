@@ -1,16 +1,17 @@
 @extends('admin.layouts.app')
 
-@section('title','Edit Setting')
+@section('title','Footer Settings')
 
 @section('content')
-<h2 class="text-xl font-semibold mb-4">Edit Setting</h2>
+    <div class="mb-4 flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Footer Settings</h2>
+    </div>
 
-<form method="post"
-      action="{{ route('admin.home_settings.update', $setting) }}"
-      class="space-y-4 max-w-xl">
-    @csrf
-    @method('PUT')
+    @if(session('success'))
+        <div class="mb-4 bg-green-100 text-green-800 px-4 py-2 rounded text-sm">
+            {{ session('success') }}
+        </div>
+    @endif
 
-    @include('admin.home_settings.partials.form', ['setting' => $setting])
-</form>
+    @include('admin.home_settings.partials.form', ['homeSetting' => $homeSetting])
 @endsection

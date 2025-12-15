@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto py-12 px-4">
-    <h1 class="text-3xl font-bold text-center mb-16">Contact Us</h1>
+    <h1 class="text-5xl font-black md:text-7xl text-slate-900 text-center mb-16">Contact Us</h1>
 
     {{-- Success message --}}
     @if(session('success'))

@@ -26,7 +26,7 @@
 
         <a href="{{ url('/contact-us') }}"
            class="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold px-8 py-3 rounded-full shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-1">
-            Get Quote <span>→</span>
+            Contact US <span>→</span>
         </a>
 
         <a href="{{ route('services') }}" class="inline-block ml-4 text-slate-600 hover:underline">

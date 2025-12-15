@@ -53,7 +53,7 @@
         <div class="max-w-4xl mx-auto px-6">
             <h2 class="text-4xl md:text-6xl font-black mb-6">Ready to Start?</h2>
             <p class="text-xl md:text-2xl mb-12 max-w-2xl mx-auto opacity-90">Get free consultation today</p>
-            <a href="{{ url('/contact-us') }}" class="inline-block bg-white text-red-500 font-black text-xl px-16 py-6 rounded-full shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-2">Get Free Quote</a>
+            <a href="{{ url('/contact-us') }}" class="inline-block bg-white text-red-500 font-black text-xl px-16 py-6 rounded-full shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-2">Contact US</a>
         </div>
     </section>
     @endsection

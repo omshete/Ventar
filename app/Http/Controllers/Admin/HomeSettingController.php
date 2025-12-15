@@ -3,87 +3,47 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Setting;
+use App\Models\HomeSetting;
 use Illuminate\Http\Request;
 
 class HomeSettingController extends Controller
 {
-    /**
-     * List all settings (logo, email, phone, socials etc.).
-     */
+    // Single settings screen (used by admin.home_settings.index)
     public function index()
     {
-        $settings = Setting::orderBy('key')->paginate(20);
+        // always work with row id = 1 (create if not exists)
+        $homeSetting = HomeSetting::firstOrCreate(['id' => 1]);
 
-        return view('admin.home_settings.index', compact('settings'));
+        return view('admin.home_settings.edit', compact('homeSetting'));
     }
 
-    /**
-     * Show add form.
-     */
-    public function create()
+    // Optional edit route (admin.home_settings.edit)
+    public function edit(HomeSetting $home_setting)
     {
-        return view('admin.home_settings.create');
+        return view('admin.home_settings.edit', [
+            'homeSetting' => $home_setting,
+        ]);
     }
 
-    /**
-     * Store new setting.
-     */
-    public function store(Request $request)
+    // Update footer values
+    public function update(Request $request, HomeSetting $home_setting)
     {
         $data = $request->validate([
-            'key'   => ['required', 'string', 'max:255', 'unique:settings,key'],
-            'value' => ['nullable', 'string'],
+            'footer_company'      => 'nullable|string|max:255',
+            'footer_description'  => 'nullable|string',
+            'footer_email'        => 'nullable|email|max:255',
+            'footer_phone'        => 'nullable|string|max:255',
+            'footer_address'      => 'nullable|string|max:255',
+            'footer_x'            => 'nullable|string|max:255',
+            'footer_linkedin'     => 'nullable|string|max:255',
+            'footer_facebook'     => 'nullable|string|max:255',
+            'footer_instagram'    => 'nullable|string|max:255',
         ]);
 
-        Setting::create($data);
+        $home_setting->update($data);
 
         return redirect()
             ->route('admin.home_settings.index')
-            ->with('success', 'Setting created.');
+            ->with('success', 'Footer settings updated.');
     }
-
-    /**
-     * Show edit form.
-     *
-     * Route model binding: parameter {home_setting}
-     */
-    public function edit(Setting $home_setting)
-    {
-        $setting = $home_setting;
-
-        return view('admin.home_settings.edit', compact('setting'));
-    }
-
-    /**
-     * Update existing setting.
-     */
-    public function update(Request $request, Setting $home_setting)
-    {
-        $setting = $home_setting;
-
-        $data = $request->validate([
-            'key'   => ['required', 'string', 'max:255', 'unique:settings,key,' . $setting->id],
-            'value' => ['nullable', 'string'],
-        ]);
-
-        $setting->update($data);
-
-        return redirect()
-            ->route('admin.home-setting.index')
-            ->with('success', 'Setting updated.');
-    }
-
-    /**
-     * Delete a setting.
-     */
-    public function destroy(Setting $home_setting)
-    {
-        $home_setting->delete();
-
-        return redirect()
-            ->route('admin.home_settings.index')
-            ->with('success', 'Setting deleted.');
-    }
-
 }
