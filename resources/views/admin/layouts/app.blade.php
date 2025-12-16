@@ -43,6 +43,13 @@
                 </a>
             @endif
 
+            {{-- Home Hero menu item --}}
+            @if (Route::has('admin.home-hero.index'))
+                <a href="{{ route('admin.home-hero.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>Home hero</b>
+                </a>
+            @endif
+
             {{-- About Us menu item --}}
             @if (Route::has('admin.about-us.index'))
                 <a href="{{ route('admin.about-us.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
@@ -70,6 +77,14 @@
                 </a>
             @endif
 
+            {{-- Contact Settings menu item --}}
+            @if (Route::has('admin.contact-settings.index'))
+                <a href="{{ route('admin.contact-settings.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>Contact Settings</b>
+                </a>
+            @endif
+
+            
             <form method="post" action="{{ route('admin.logout') }}" class="mt-4">
                 @csrf
                 <button class="text-xs text-red-400 hover:text-red-200 w-full p-3 rounded-lg bg-slate-800/50 text-left" type="submit">

@@ -7,41 +7,59 @@
         {{-- Left Text --}}
         <div>
             <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
-                Ventar – Your IT Service Partner
+                {{ $hero->title ?? 'Ventar – Your IT Service Partner' }}
             </h1>
             <p class="text-lg md:text-xl mb-8 max-w-lg leading-relaxed">
-                {{ $homeText }}
+                {{ $hero->description ?? $homeText }}
             </p>
-            <a href="#services" class="scroll-btn inline-block bg-white text-red-500 font-bold px-8 py-4 rounded-full shadow-2xl hover:bg-slate-100 transition-all duration-300">
-                Explore Services ↓
+            <a href="{{ $hero->button_link ?? '#services' }}"
+               class="scroll-btn inline-block bg-white text-red-500 font-bold px-8 py-4 rounded-full shadow-2xl hover:bg-slate-100 transition-all duration-300">
+                {{ $hero->button_label ?? 'Explore Services ↓' }}
             </a>
         </div>
 
-        {{-- Right Cards (Static Teasers) --}}
+        {{-- Right Cards --}}
         <div class="hidden md:block">
             <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-white/90 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
-                        <h3 class="font-bold mb-2 text-slate-800 text-sm">Web Development</h3>
-                        <p class="text-xs text-slate-700">High-performance sites</p>
+                        <h3 class="font-bold mb-2 text-slate-800 text-sm">
+                            {{ $hero->card1_title ?? 'Web Development' }}
+                        </h3>
+                        <p class="text-xs text-slate-700">
+                            {{ $hero->card1_text ?? 'High-performance sites' }}
+                        </p>
                     </div>
                     <div class="bg-white/90 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
-                        <h3 class="font-bold mb-2 text-slate-800 text-sm">Cloud & DevOps</h3>
-                        <p class="text-xs text-slate-700">Scalable infrastructure</p>
+                        <h3 class="font-bold mb-2 text-slate-800 text-sm">
+                            {{ $hero->card2_title ?? 'Cloud & DevOps' }}
+                        </h3>
+                        <p class="text-xs text-slate-700">
+                            {{ $hero->card2_text ?? 'Scalable infrastructure' }}
+                        </p>
                     </div>
                     <div class="bg-white/90 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
-                        <h3 class="font-bold mb-2 text-slate-800 text-sm">UI/UX Design</h3>
-                        <p class="text-xs text-slate-700">Beautiful interfaces</p>
+                        <h3 class="font-bold mb-2 text-slate-800 text-sm">
+                            {{ $hero->card3_title ?? 'UI/UX Design' }}
+                        </h3>
+                        <p class="text-xs text-slate-700">
+                            {{ $hero->card3_text ?? 'Beautiful interfaces' }}
+                        </p>
                     </div>
                     <div class="bg-white/90 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
-                        <h3 class="font-bold mb-2 text-slate-800 text-sm">Consulting</h3>
-                        <p class="text-xs text-slate-700">Tech strategy</p>
+                        <h3 class="font-bold mb-2 text-slate-800 text-sm">
+                            {{ $hero->card4_title ?? 'Consulting' }}
+                        </h3>
+                        <p class="text-xs text-slate-700">
+                            {{ $hero->card4_text ?? 'Tech strategy' }}
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 {{-- SERVICES SECTION --}}
 <section id="services" class="scroll-animate py-24 bg-slate-100">

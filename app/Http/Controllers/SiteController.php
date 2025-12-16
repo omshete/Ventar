@@ -11,7 +11,9 @@ use App\Models\Service;
 use App\Models\Customer;
 use App\Models\HomeStory;
 use App\Models\Aim;
-use App\Models\AboutUs;  // ✅ ADDED: Missing import
+use App\Models\AboutUs;
+use App\Models\ContactSetting; // <-- only if you created the ContactSetting model
+use App\Models\HomeHero; // <-- only if you created the HomeHero model
 use App\Mail\ContactMessageMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -68,9 +70,26 @@ class SiteController extends Controller
             $customers = collect();
         }
 
-        // Hero title / text from settings table
+        // Fallback hero title / text from settings table
         $homeTitle = $this->getSettingValue('hero_title', 'Ventar – Your IT Service Partner');
         $homeText  = $this->getSettingValue('hero_text', 'Ventar delivers scalable, secure, and modern digital solutions.');
+
+        // Optional: dynamic Home Hero from DB (if you created HomeHero)
+        $hero = null;
+        try {
+            $hero = HomeHero::where('is_active', 1)
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->first();
+            if ($hero) {
+                // if hero exists, override text used in the view
+                $homeTitle = $hero->title;
+                $homeText  = $hero->description ?? $homeText;
+            }
+        } catch (\Throwable $e) {
+            \Log::error('Home page hero load error: ' . $e->getMessage());
+            $hero = null;
+        }
 
         // OUR STORY
         try {
@@ -80,40 +99,39 @@ class SiteController extends Controller
             $ourStory = null;
         }
 
-        // Important: DO NOT pass a local $homeSetting here.
-        // The layout (layouts.app) will use the globally shared $homeSetting
-        // from AppServiceProvider, which reads the home_settings table.
+        // The layout uses shared $homeSetting from AppServiceProvider (home_settings table)
         return view('site.home', compact(
             'blogs',
             'services',
             'customers',
             'homeTitle',
             'homeText',
-            'ourStory'
+            'ourStory',
+            'hero'
         ));
     }
 
     /**
-     * About page - ✅ FIXED with error handling
+     * About page
      */
     public function about()
     {
         try {
-        // Get FIRST active about OR create default
-        $about = AboutUs::where('is_active', 1)
-            ->orderBy('sort_order', 'asc')
-            ->orderBy('id', 'asc')
-            ->first();
-            
-        // If no active about, get any or null
-        if (!$about) {
-            $about = AboutUs::orderBy('id')->first();
+            // Get FIRST active about
+            $about = AboutUs::where('is_active', 1)
+                ->orderBy('sort_order', 'asc')
+                ->orderBy('id', 'asc')
+                ->first();
+
+            // If no active about, get any record (or null if none)
+            if (! $about) {
+                $about = AboutUs::orderBy('id')->first();
+            }
+        } catch (\Throwable $e) {
+            \Log::error('About page load error: ' . $e->getMessage());
+            $about = null;
         }
-    } catch (\Throwable $e) {
-        \Log::error('About page load error: ' . $e->getMessage());
-        $about = null;
-    }
-        
+
         return view('site.about', compact('about'));
     }
 
@@ -157,13 +175,14 @@ class SiteController extends Controller
     public function aim()
     {
         try {
-        $aim = Aim::where('is_active', 1)
-            ->orderBy('sort_order')
-            ->first();
+            $aim = Aim::where('is_active', 1)
+                ->orderBy('sort_order')
+                ->first();
         } catch (\Throwable $e) {
             \Log::error('Aim page load error: ' . $e->getMessage());
             $aim = null;
         }
+
         return view('site.aim', compact('aim'));
     }
 
