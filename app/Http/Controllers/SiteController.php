@@ -10,6 +10,8 @@ use App\Models\TeamMember;
 use App\Models\Service;
 use App\Models\Customer;
 use App\Models\HomeStory;
+use App\Models\Aim;
+use App\Models\AboutUs;  // ✅ ADDED: Missing import
 use App\Mail\ContactMessageMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -92,12 +94,27 @@ class SiteController extends Controller
     }
 
     /**
-     * About page
+     * About page - ✅ FIXED with error handling
      */
     public function about()
     {
-        $aboutText = $this->getSettingValue('about_text', null);
-        return view('site.about', compact('aboutText'));
+        try {
+        // Get FIRST active about OR create default
+        $about = AboutUs::where('is_active', 1)
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'asc')
+            ->first();
+            
+        // If no active about, get any or null
+        if (!$about) {
+            $about = AboutUs::orderBy('id')->first();
+        }
+    } catch (\Throwable $e) {
+        \Log::error('About page load error: ' . $e->getMessage());
+        $about = null;
+    }
+        
+        return view('site.about', compact('about'));
     }
 
     /**
@@ -139,7 +156,14 @@ class SiteController extends Controller
      */
     public function aim()
     {
-        $aim = $this->getSettingValue('our_aim', null);
+        try {
+        $aim = Aim::where('is_active', 1)
+            ->orderBy('sort_order')
+            ->first();
+        } catch (\Throwable $e) {
+            \Log::error('Aim page load error: ' . $e->getMessage());
+            $aim = null;
+        }
         return view('site.aim', compact('aim'));
     }
 

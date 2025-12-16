@@ -102,38 +102,87 @@
     </div>
 </section>
 
-{{-- OUR STORY SECTION --}}
+{{-- OUR STORY SECTION - DYNAMIC FROM ADMIN --}}
 <section id="our-story" class="py-24 bg-white">
     <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
         <div>
-            <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-                Our Story
-            </h2>
-            <p class="text-lg text-slate-600 mb-4 leading-relaxed">
-                Ventar was started with a simple goal: help businesses grow through reliable, modern technology solutions.
-            </p>
-            <p class="text-lg text-slate-600 mb-4 leading-relaxed">
-                From small startups to established enterprises, the team has worked across industries to build scalable, secure and user‑friendly digital products.
-            </p>
-            <p class="text-lg text-slate-600 leading-relaxed">
-                The focus is on long‑term partnerships, transparent communication, and delivering real business results—not just code.
-            </p>
+            @if($ourStory)  <!-- ✅ FIXED: $ourStory not $story -->
+                <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">
+                    {{ $ourStory->title }}
+                </h2>
+                <p class="text-lg text-slate-600 mb-4 leading-relaxed">
+                    {{ $ourStory->paragraph_1 }}
+                </p>
+                @if($ourStory->paragraph_2)
+                    <p class="text-lg text-slate-600 mb-4 leading-relaxed">
+                        {{ $ourStory->paragraph_2 }}
+                    </p>
+                @endif
+                @if($ourStory->paragraph_3)
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        {{ $ourStory->paragraph_3 }}
+                    </p>
+                @endif
+                @if($ourStory->paragraph_4)
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        {{ $ourStory->paragraph_4 }}
+                    </p>
+                @endif
+                @if($ourStory->paragraph_5)
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        {{ $ourStory->paragraph_5 }}
+                    </p>
+                @endif
+                @if($ourStory->paragraph_6)
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        {{ $ourStory->paragraph_6 }}
+                    </p>
+                @endif
+            @else
+                <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">Our Story</h2>
+                <p class="text-lg text-slate-600 mb-4 leading-relaxed">
+                    Ventar was started with a simple goal: help businesses grow through reliable, modern technology solutions.
+                </p>
+                <p class="text-lg text-slate-600 mb-4 leading-relaxed">
+                    From small startups to established enterprises, the team has worked across industries to build scalable, secure and user-friendly digital products.
+                </p>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    The focus is on long-term partnerships, transparent communication, and delivering real business results—not just code.
+                </p>
+            @endif
         </div>
 
         <div class="relative">
             <div class="absolute -inset-4 bg-gradient-to-tr from-red-500/10 to-pink-500/20 rounded-3xl blur-2xl"></div>
             <div class="relative bg-slate-900 text-white rounded-3xl p-8 shadow-2xl">
-                <h3 class="text-2xl font-bold mb-4">Why Ventar?</h3>
-                <ul class="space-y-3 text-slate-100 text-base">
-                    <li>• Experienced team across web, cloud and DevOps.</li>
-                    <li>• Focus on performance, security and scalability.</li>
-                    <li>• Clear communication and on‑time delivery.</li>
-                    <li>• Long‑term support beyond project launch.</li>
-                </ul>
+                @if($ourStory)
+                    <h3 class="text-2xl font-bold mb-4">{{ $ourStory->side_title }}</h3>
+                    <ul class="space-y-3 text-slate-100 text-base">
+                        @if($ourStory->bullet_1)<li>• {{ $ourStory->bullet_1 }}</li>@endif
+                        @if($ourStory->bullet_2)<li>• {{ $ourStory->bullet_2 }}</li>@endif
+                        @if($ourStory->bullet_3)<li>• {{ $ourStory->bullet_3 }}</li>@endif
+                        @if($ourStory->bullet_4)<li>• {{ $ourStory->bullet_4 }}</li>@endif
+                        @if($ourStory->bullet_5)<li>• {{ $ourStory->bullet_5 }}</li>@endif
+                        @if($ourStory->bullet_6)<li>• {{ $ourStory->bullet_6 }}</li>@endif
+                        @if($ourStory->bullet_7)<li>• {{ $ourStory->bullet_7 }}</li>@endif
+                        @if($ourStory->bullet_8)<li>• {{ $ourStory->bullet_8 }}</li>@endif
+                        @if($ourStory->bullet_9)<li>• {{ $ourStory->bullet_9 }}</li>@endif
+                        @if($ourStory->bullet_10)<li>• {{ $ourStory->bullet_10 }}</li>@endif
+                    </ul>
+                @else
+                    <h3 class="text-2xl font-bold mb-4">Why Ventar?</h3>
+                    <ul class="space-y-3 text-slate-100 text-base">
+                        <li>• Experienced team across web, cloud and DevOps.</li>
+                        <li>• Focus on performance, security and scalability.</li>
+                        <li>• Clear communication and on-time delivery.</li>
+                        <li>• Long-term support beyond project launch.</li>
+                    </ul>
+                @endif
             </div>
         </div>
     </div>
 </section>
+
 
 {{-- BLOGS SECTION - DYNAMIC FROM DB --}}
 <section id="blogs" class="scroll-animate py-24 bg-slate-100">

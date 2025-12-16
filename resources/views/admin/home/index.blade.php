@@ -44,12 +44,42 @@
                 </div>
             @endif
             
+            @if($story->paragraph_4)
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Paragraph 4</label>
+                    <p class="text-gray-700 leading-relaxed">{{ $story->paragraph_4 }}</p>
+                </div>  
+            @endif
+
+            @if($story->paragraph_4)
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Paragraph 5</label>
+                    <p class="text-gray-700 leading-relaxed">{{ $story->paragraph_5 }}</p>
+                </div>
+            @endif
+
+            @if($story->paragraph_5)
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Paragraph 6</label>
+                    <p class="text-gray-700 leading-relaxed">{{ $story->paragraph_6 }}</p>
+                </div>
+            @endif
+
+            @if($story->paragraph_6)
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Paragraph 7</label>
+                    <p class="text-gray-700 leading-relaxed">{{ $story->paragraph_7 }}</p>
+                </div>
+            @endif
+
+    
+            
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-2">Right Card Title</label>
                 <p class="text-lg font-bold text-gray-900">{{ $story->side_title }}</p>
             </div>
             
-            @if($story->bullet_1 || $story->bullet_2 || $story->bullet_3 || $story->bullet_4)
+            @if($story->bullet_1 || $story->bullet_2 || $story->bullet_3 || $story->bullet_4 || $story->bullet_5 || $story->bullet_6 || $story->bullet_7 || $story->bullet_8 || $story->bullet_9 || $story->bullet_10)
                 <div class="grid md:grid-cols-2 gap-4">
                     @if($story->bullet_1)
                         <div><label class="block text-sm font-semibold text-slate-700 mb-1">Bullet 1</label><p class="text-gray-700">• {{ $story->bullet_1 }}</p></div>
@@ -62,6 +92,24 @@
                     @endif
                     @if($story->bullet_4)
                         <div><label class="block text-sm font-semibold text-slate-700 mb-1">Bullet 4</label><p class="text-gray-700">• {{ $story->bullet_4 }}</p></div>
+                    @endif
+                    @if($story->bullet_5)
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Bullet 5</label><p class="text-gray-700">• {{ $story->bullet_5 }}</p></div>
+                    @endif
+                    @if($story->bullet_6)
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Bullet 6</label><p class="text-gray-700">• {{ $story->bullet_6 }}</p></div>
+                    @endif
+                    @if($story->bullet_7)
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Bullet 7</label><p class="text-gray-700">• {{ $story->bullet_7 }}</p></div>
+                    @endif
+                    @if($story->bullet_8)   
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Bullet 8</label><p class="text-gray-700">• {{ $story->bullet_8 }}</p></div>
+                    @endif
+                    @if($story->bullet_9)   
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Bullet 9</label><p class="text-gray-700">• {{ $story->bullet_9 }}</p></div>
+                    @endif
+                    @if($story->bullet_10)
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Bullet 10</label><p class="text-gray-700">• {{ $story->bullet_10 }}</p></div>
                     @endif
                 </div>
             @endif

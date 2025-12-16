@@ -14,9 +14,11 @@ class TeamMember extends Model
     protected $table = 'team_members';
 
     protected $fillable = [
-        'name',
-        'position',
-        'photo',
-        'about',
+        'name', 
+        'designation',
+        'linkedin_url', 
+        'photo_path', 
+        'order', 
+        'is_active'
     ];
 }

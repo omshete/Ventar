@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\HomeSettingController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\HomeStoryController;
+use App\Http\Controllers\Admin\AboutUsController;
+use App\Http\Controllers\Admin\AimController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,5 +82,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Home Settings
         Route::resource('home_settings', HomeSettingController::class)->only(['index', 'edit', 'update']);
+
+        // About Us CRUD
+        Route::resource('about-us', AboutUsController::class);
+
+        // Our Aim routes
+        Route::resource('aim', AimController::class);
+
     });
 });

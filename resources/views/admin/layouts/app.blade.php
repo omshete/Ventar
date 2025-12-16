@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ventar Admin - @yield('title','Dashboard')</title>
-    <meta name="viewport" content="width=device-width, login-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     @vite('resources/css/app.css')
 </head>
 <body class="bg-slate-100">
@@ -16,50 +16,64 @@
         </div>
 
         <nav class="p-4 space-y-2 text-sm">
-            <a href="{{ route('admin.dashboard') }}" class="block hover:text-white">
-                Dashboard
+            <a href="{{ route('admin.dashboard') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                <b>Dashboard</b>
             </a>
 
-            <a href="{{ route('admin.services.index') }}" class="block hover:text-white">
-                Services
+            <a href="{{ route('admin.services.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                <b>Services</b>
             </a>
 
-            <a href="{{ route('admin.blogs.index') }}" class="block hover:text-white">
-                Blogs
+            <a href="{{ route('admin.blogs.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                <b>Blogs</b>
             </a>
 
-            <a href="{{ route('admin.team.index') }}" class="block hover:text-white">
-                Team
+            <a href="{{ route('admin.team.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                <b>Team</b>
             </a>
 
             <a href="{{ route('admin.home_sections.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
-                <i class="fas fa-home mr-2"></i>Hero Sections
+                <b>Hero Sections</b>
             </a>
-
 
             {{-- Home Content menu item --}}
             @if (Route::has('admin.home.index'))
-                <a href="{{ route('admin.home.index') }}" class="block hover:text-white">
-                    Home Content
+                <a href="{{ route('admin.home.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>Our Story</b>
                 </a>
             @endif
 
+            {{-- About Us menu item --}}
+            @if (Route::has('admin.about-us.index'))
+                <a href="{{ route('admin.about-us.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>About Us</b>
+                </a>
+            @endif
 
-            <a href="{{ route('admin.customers.index') }}" class="block hover:text-white">
-                Customers
-            </a>
+            {{-- Customers menu item --}}
+            @if (Route::has('admin.customers.index'))
+                <a href="{{ route('admin.customers.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>Customers</b>
+                </a>
+            @endif
+
+            @if (Route::has('admin.aim.index'))
+                <a href="{{ route('admin.aim.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>Our Aim</b>
+                </a>
+            @endif
 
             {{-- Settings menu item --}}
             @if (Route::has('admin.home_settings.index'))
-                <a href="{{ route('admin.home_settings.index') }}" class="block hover:text-white">
-                    Settings / Logo
+                <a href="{{ route('admin.home_settings.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>Footer Settings</b>
                 </a>
             @endif
 
             <form method="post" action="{{ route('admin.logout') }}" class="mt-4">
                 @csrf
-                <button class="text-xs text-red-400 hover:text-red-200">
-                    Logout
+                <button class="text-xs text-red-400 hover:text-red-200 w-full p-3 rounded-lg bg-slate-800/50 text-left" type="submit">
+                    <b>Logout</b>
                 </button>
             </form>
         </nav>
