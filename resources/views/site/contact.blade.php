@@ -3,120 +3,123 @@
 @section('title','Contact Us')
 
 @section('content')
-<div class="max-w-6xl mx-auto py-12 px-4">
-    <h1 class="text-5xl font-black md:text-7xl text-slate-900 text-center mb-16">Contact Us</h1>
+<section id="hero" class="min-h-screen flex items-center text-slate-900 py-24"
+         style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
+    <div class="max-w-6xl mx-auto px-6">
+        <h1 class="text-5xl font-black md:text-7xl text-slate-900 text-center mb-16 scroll-animate">Contact Us</h1>
 
-    {{-- Success message --}}
-    @if(session('success'))
-        <div class="mb-8 bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg text-center max-w-2xl mx-auto">
-            {{ session('success') }}
-        </div>
-    @endif
+        {{-- Success message --}}
+        @if(session('success'))
+            <div class="mb-8 bg-orange-100 border border-orange-400 text-orange-700 px-6 py-4 rounded-3xl text-center max-w-2xl mx-auto shadow-lg">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    {{-- Validation errors --}}
-    @if($errors->any())
-        <div class="mb-8 bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg max-w-2xl mx-auto">
-            <ul class="list-disc list-inside">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        {{-- Validation errors --}}
+        @if($errors->any())
+            <div class="mb-8 bg-orange-100 border border-orange-400 text-orange-700 px-6 py-4 rounded-3xl max-w-2xl mx-auto shadow-lg">
+                <ul class="list-disc list-inside">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <div class="grid lg:grid-cols-2 gap-12 items-start">
-        {{-- Contact Form (Left Side) --}}
-        <div>
-            <form method="POST" action="{{ route('contact.submit') }}" class="space-y-6 bg-white p-8 rounded-xl shadow-lg">
-                @csrf
+        <div class="grid lg:grid-cols-2 gap-12 items-start">
+            {{-- Contact Form (Left Side) --}}
+            <div>
+                <form method="POST" action="{{ route('contact.submit') }}" class="space-y-6 bg-white/90 p-8 rounded-3xl shadow-xl border border-orange-100">
+                    @csrf
 
-                <div>
-                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
-                    <input id="name" type="text" name="name"
-                           value="{{ old('name') }}"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent @error('name') border-red-500 @enderror"
-                           placeholder="Enter your full name" required>
-                    @error('name')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+                    <div>
+                        <label for="name" class="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+                        <input id="name" type="text" name="name"
+                               value="{{ old('name') }}"
+                               class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 @error('name') border-orange-500 @enderror"
+                               placeholder="Enter your full name" required>
+                        @error('name')
+                            <p class="mt-1 text-sm text-orange-600">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                <div>
-                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
-                    <input id="email" type="email" name="email"
-                           value="{{ old('email') }}"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent @error('email') border-red-500 @enderror"
-                           placeholder="your@email.com" required>
-                    @error('email')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+                    <div>
+                        <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                        <input id="email" type="email" name="email"
+                               value="{{ old('email') }}"
+                               class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 @error('email') border-orange-500 @enderror"
+                               placeholder="your@email.com" required>
+                        @error('email')
+                            <p class="mt-1 text-sm text-orange-600">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                <div>
-                    <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone (Optional)</label>
-                    <input id="phone" type="tel" name="phone"
-                           value="{{ old('phone') }}"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                           placeholder="+91-XXXXXXXXXX">
-                </div>
+                    <div>
+                        <label for="phone" class="block text-sm font-semibold text-slate-700 mb-2">Phone (Optional)</label>
+                        <input id="phone" type="tel" name="phone"
+                               value="{{ old('phone') }}"
+                               class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                               placeholder="+91-XXXXXXXXXX">
+                    </div>
 
-                <div>
-                    <label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
-                    <input id="subject" type="text" name="subject"
-                           value="{{ old('subject') }}"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent @error('subject') border-red-500 @enderror"
-                           placeholder="What can we help you with?" required>
-                    @error('subject')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+                    <div>
+                        <label for="subject" class="block text-sm font-semibold text-slate-700 mb-2">Subject</label>
+                        <input id="subject" type="text" name="subject"
+                               value="{{ old('subject') }}"
+                               class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 @error('subject') border-orange-500 @enderror"
+                               placeholder="What can we help you with?" required>
+                        @error('subject')
+                            <p class="mt-1 text-sm text-orange-600">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                <div>
-                    <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
-                    <textarea id="message" name="message" rows="6"
-                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-vertical @error('message') border-red-500 @enderror"
-                              placeholder="Tell us about your project or question..." required>{{ old('message') }}</textarea>
-                    @error('message')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+                    <div>
+                        <label for="message" class="block text-sm font-semibold text-slate-700 mb-2">Message</label>
+                        <textarea id="message" name="message" rows="6"
+                                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-vertical @error('message') border-orange-500 @enderror"
+                                  placeholder="Tell us about your project or question..." required>{{ old('message') }}</textarea>
+                        @error('message')
+                            <p class="mt-1 text-sm text-orange-600">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                <button type="submit"
-                        class="w-full bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:from-red-600 hover:to-pink-600 transform hover:-translate-y-0.5 transition-all duration-200">
-                    Send Message
-                </button>
-            </form>
-        </div>
-
-        {{-- Contact Info (Right Side) --}}
-        <div class="space-y-8">
-            <div class="bg-gradient-to-br from-red-500 to-pink-500 text-white p-8 rounded-xl shadow-lg">
-                <h3 class="text-2xl font-bold mb-4">Get In Touch</h3>
-                <p class="text-lg leading-relaxed">Ready to start your next project with us? Send us a message and we'll respond within 24 hours. We're here to help you succeed.</p>
+                    <button type="submit"
+                            class="w-full bg-orange-500 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:bg-orange-600 hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+                        Send Message
+                    </button>
+                </form>
             </div>
 
-            <div class="space-y-6">
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="flex items-center mb-3">
-                        <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                            📧
-                        </div>
-                        <h4 class="font-semibold text-xl text-gray-800 ml-4">Email</h4>
-                    </div>
-                    <p class="text-gray-600 text-lg">{{ $contactEmail }}</p>
+            {{-- Contact Info (Right Side) --}}
+            <div class="space-y-8">
+                <div class="bg-orange-500 text-white p-8 rounded-3xl shadow-xl">
+                    <h3 class="text-2xl font-black mb-4">Get In Touch</h3>
+                    <p class="text-lg leading-relaxed">Ready to start your next project with us? Send us a message and we'll respond within 24 hours. We're here to help you succeed.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="flex items-center mb-3">
-                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                            📞
+                <div class="space-y-6">
+                    <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 bg-red-500 rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                                📧
+                            </div>
+                            <h4 class="font-black text-xl text-slate-900 ml-4">Email</h4>
                         </div>
-                        <h4 class="font-semibold text-xl text-gray-800 ml-4">Phone</h4>
+                        <p class="text-slate-700 text-lg">{{ $contactEmail }}</p>
                     </div>
-                    <p class="text-gray-600 text-lg">{{ $contactPhone }}</p>
+
+                    <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                                📞
+                            </div>
+                            <h4 class="font-black text-xl text-slate-900 ml-4">Phone</h4>
+                        </div>
+                        <p class="text-slate-700 text-lg">{{ $contactPhone }}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 @endsection
