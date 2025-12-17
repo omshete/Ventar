@@ -6,17 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @vite('resources/css/app.css')
     <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-slate-50">
     {{-- Loader --}}
     <div id="loader" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-red-500 to-pink-500">
         <div class="relative flex flex-col items-center">
             @if(!empty($homeSetting->logo))
-                <img src="{{ asset('storage/'.$homeSetting->logo) }}" alt="{{ $homeSetting->site_title ?? 'Ventar' }}" class="w-32 h-32 mb-4">
+                {{-- when logo is saved in DB (storage/app/public/...) --}}
+                <img src="{{ asset('storage/'.$homeSetting->logo) }}"
+                     alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
+                     class="w-32 h-32 mb-4">
             @else
-                <img src="{{ asset('images/ventar-logo.png') }}" alt="{{ $homeSetting->site_title ?? 'Ventar' }}" class="w-32 h-32 mb-4">
+                {{-- fallback SVG in public/images --}}
+                <img src="{{ asset('images/ventar-logo.svg') }}"
+                     alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
+                     class="w-32 h-32 mb-4">
             @endif
             <div class="paper-plane w-8 h-8 bg-white rounded-full shadow-lg"></div>
             <p class="mt-4 text-white text-lg font-semibold">
@@ -26,21 +32,20 @@
     </div>
 
     {{-- Header / Navbar --}}
-    <header class="bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg"
+    <header class="bg-white text-orange-500 shadow-lg"
             x-data="{ openMenu:false, openAbout:false }">
         <div class="max-w-6xl mx-auto flex items-center justify-between py-4 px-4">
-            {{-- LOGO + TITLE --}}
+            {{-- LOGO --}}
             <div class="flex items-center gap-3 animate-fade-in">
                 @if(!empty($homeSetting->logo))
                     <img src="{{ asset('storage/'.$homeSetting->logo) }}"
                          alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
                          class="w-10 h-10 transform transition duration-300 hover:scale-110">
                 @else
-                    <img src="{{ asset('images/ventar-logo.png') }}"
+                    <img src="{{ asset('images/ventar-logo.svg') }}"
                          alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
                          class="w-10 h-10 transform transition duration-300 hover:scale-110">
                 @endif
-                <span class="font-bold text-xl tracking-wide">{{ $homeSetting->site_title ?? 'Ventar' }}</span>
             </div>
 
             {{-- DESKTOP MENU --}}
@@ -68,7 +73,7 @@
 
             {{-- MOBILE MENU BUTTON --}}
             <button @click="openMenu = !openMenu"
-                    class="md:hidden text-3xl transform transition duration-300 hover:scale-110"
+                    class="md:hidden text-3xl text-orange-500 transform transition duration-300 hover:scale-110"
                     :class="{ 'rotate-90' : openMenu }">
                 ☰
             </button>
@@ -82,7 +87,7 @@
              x-transition:leave="transition ease-in duration-300"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-5"
-             class="md:hidden bg-gradient-to-r from-red-500 to-pink-500 text-white border-t border-white/20">
+             class="md:hidden bg-white text-orange-500 border-t border-orange-200">
             <nav class="flex flex-col p-4 space-y-3 text-base">
                 <a href="{{ url('/') }}" class="mobile-link">Home</a>
                 <a href="{{ url('/services') }}" class="mobile-link">Services</a>
@@ -129,24 +134,51 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        .nav-link { position: relative; transition: 0.3s ease; }
-        .nav-link:hover { transform: translateY(-2px) scale(1.05); }
+        .nav-link {
+            position: relative;
+            transition: 0.3s ease;
+            color: #f97316;
+            font-weight: 500;
+        }
+        .nav-link:hover {
+            transform: translateY(-2px) scale(1.05);
+            color: #ea580c;
+        }
 
-        .dropdown-item { display: block; padding: 8px 16px; transition: 0.2s; }
-        .dropdown-item:hover { background: #f1f5f9; padding-left: 20px; }
+        .dropdown-item {
+            display: block;
+            padding: 8px 16px;
+            transition: 0.2s;
+            color: #0f172a;
+        }
+        .dropdown-item:hover {
+            background: #f1f5f9;
+            padding-left: 20px;
+        }
 
-        .mobile-link { transition: 0.3s ease; }
-        .mobile-link:hover { transform: translateX(4px); }
+        .mobile-link {
+            transition: 0.3s ease;
+            color: #f97316;
+            font-weight: 500;
+        }
+        .mobile-link:hover {
+            transform: translateX(4px);
+            color: #ea580c;
+        }
 
-        .mobile-sub-link { transition: 0.2s ease; }
-        .mobile-sub-link:hover { transform: translateX(6px); }
+        .mobile-sub-link {
+            transition: 0.2s ease;
+            color: #0f172a;
+        }
+        .mobile-sub-link:hover {
+            transform: translateX(6px);
+        }
 
         .scroll-animate {
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-
         .scroll-animate.in-view {
             opacity: 1;
             transform: translateY(0);
@@ -158,7 +190,7 @@
         @yield('content')
     </main>
 
-    {{-- FOOTER - FIXED: Removed mt-16, reduced padding --}}
+    {{-- FOOTER --}}
     <footer class="bg-[#333333] text-slate-100">
         <div class="max-w-6xl mx-auto px-6 py-8 grid md:grid-cols-3 gap-8 text-sm">
             {{-- COMPANY --}}
@@ -189,51 +221,30 @@
             <div>
                 <h4 class="text-lg font-semibold mb-4">Follow Us:-</h4>
                 <div class="flex items-center gap-6">
-                    {{-- X / Twitter --}}
                     <a href="{{ $homeSetting->footer_x ?? 'https://x.com/ventarit?s=21' }}"
                        target="_blank" rel="noopener noreferrer"
-                       class="w-12 h-12 rounded-full bg-black
-                               flex items-center justify-center
-                               text-white text-lg
-                               transition hover:scale-110">
+                       class="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white text-lg transition hover:scale-110">
                         <i class="fa-brands fa-x-twitter"></i>
                     </a>
-
-                    {{-- LinkedIn --}}
                     <a href="{{ $homeSetting->footer_linkedin ?? 'https://www.linkedin.com/company/ventar-it-solutions/posts/?feedView=all&viewAsMember=true' }}"
                        target="_blank" rel="noopener noreferrer"
-                       class="w-12 h-12 rounded-full bg-[#0A66C2]
-                               flex items-center justify-center
-                               text-white text-lg
-                               transition hover:scale-110">
+                       class="w-12 h-12 rounded-full bg-[#0A66C2] flex items-center justify-center text-white text-lg transition hover:scale-110">
                         <i class="fa-brands fa-linkedin-in"></i>
                     </a>
-
-                    {{-- Facebook --}}
                     <a href="{{ $homeSetting->footer_facebook ?? 'https://www.facebook.com/people/Ventar/61581899771931/?mibextid=wwXIfr&rdid=tXXeCG1dnzKEZLGP&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252F1CuLXisNW9%252F%253Fmibextid%253DwwXIfr' }}"
                        target="_blank" rel="noopener noreferrer"
-                       class="w-12 h-12 rounded-full bg-[#1877F2]
-                               flex items-center justify-center
-                               text-white text-lg
-                               transition hover:scale-110">
+                       class="w-12 h-12 rounded-full bg-[#1877F2] flex items-center justify-center text-white text-lg transition hover:scale-110">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
-
-                    {{-- Instagram --}}
                     <a href="{{ $homeSetting->footer_instagram ?? 'https://www.instagram.com/ventar_it?igsh=cGwyaThuaWxubW1z&utm_source=qr' }}"
                        target="_blank" rel="noopener noreferrer"
-                       class="w-12 h-12 rounded-full
-                               bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500
-                               flex items-center justify-center
-                               text-white text-lg
-                               transition hover:scale-110">
+                       class="w-12 h-12 rounded-full bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 flex items-center justify-center text-white text-lg transition hover:scale-110">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
                 </div>
             </div>
         </div>
 
-        {{-- COPYRIGHT --}}
         <div class="border-t border-slate-600 text-center py-3 text-xs text-slate-300">
             © {{ date('Y') }} {{ $homeSetting->footer_company ?? 'Ventar IT Solutions' }}. All rights reserved.
         </div>

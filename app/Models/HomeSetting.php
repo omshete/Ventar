@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class HomeSetting extends Model
 {
     protected $fillable = [
-        'site_title',
+        
         'logo',
 
         // footer fields

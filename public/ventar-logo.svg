@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="800" viewBox="0 0 800 800"
+     xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <!-- Transparent background (no rect, no fill) -->
+  <text x="50%" y="50%"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="Playfair Display, 'Times New Roman', serif"
+        font-size="220"
+        fill="#F04A00">
+    Ventar
+  </text>
+</svg>
