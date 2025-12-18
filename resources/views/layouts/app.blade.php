@@ -16,11 +16,11 @@
             @if(!empty($homeSetting->logo))
                 <img src="{{ asset('storage/'.$homeSetting->logo) }}"
                      alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
-                     class="w-32 h-32 mb-4">
+                     class="h-25 w-auto mb-4">
             @else
                 <img src="{{ asset('images/ventar-logo.svg') }}"
                      alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
-                     class="w-32 h-32 mb-4">
+                     class="h-25 w-auto mb-4">
             @endif
             <div class="paper-plane w-8 h-8 bg-white rounded-full shadow-lg"></div>
             <p class="mt-4 text-white text-lg font-semibold">
@@ -44,11 +44,11 @@
                     @if(!empty($homeSetting->logo))
                         <img src="{{ asset('storage/'.$homeSetting->logo) }}"
                              alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
-                             class="h-16 w-auto">
+                             class="h-25 w-auto">
                     @else
                         <img src="{{ asset('images/ventar-logo.svg') }}"
                              alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
-                             class="h-16 w-auto">
+                             class="h-25 w-auto">
                     @endif
                 </a>
             </div>
@@ -234,10 +234,10 @@
             <div>
                 <h4 class="text-xl font-bold mb-6 text-400">Follow Us</h4>
                 <div class="flex gap-4">
-                    <a href="{{ $homeSetting->footer_x ?? '#' }}" target="_blank" class="w-12 h-12 bg-slate-700 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-all"><i class="fab fa-x-twitter"></i></a>
-                    <a href="{{ $homeSetting->footer_linkedin ?? '#' }}" target="_blank" class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-all"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="{{ $homeSetting->footer_facebook ?? '#' }}" target="_blank" class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-all"><i class="fab fa-facebook-f"></i></a>
-                    <a href="{{ $homeSetting->footer_instagram ?? '#' }}" target="_blank" class="w-12 h-12 bg-gradient-to-r from-pink-500 to-orange-500 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-all"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $homeSetting->footer_x ?? '#' }}" target="_blank" class="w-12 h-12 bg-slate-700 rounded-xl flex items-center justify-center transition-all"><i class="fab fa-x-twitter"></i></a>
+                    <a href="{{ $homeSetting->footer_linkedin ?? '#' }}" target="_blank" class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center transition-all"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="{{ $homeSetting->footer_facebook ?? '#' }}" target="_blank" class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center transition-all"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ $homeSetting->footer_instagram ?? '#' }}" target="_blank" class="w-12 h-12 bg-gradient-to-r from-pink-500 to-orange-500 rounded-xl flex items-center justify-center transition-all"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </div>

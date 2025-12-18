@@ -2,10 +2,8 @@
 
 @section('content')
 {{-- HERO SECTION --}}
-<section id="hero"
-    class="min-h-screen flex items-center text-slate-900"
-    style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
-    <div class="max-w-6xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-12 items-center">
+<section id="hero" class="bg-gradient-to-br from-red-500 to-orange-500 text-white min-h-screen flex items-center">
+    <div class="max-w-6xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-12 items-center scroll-animate">
         {{-- Left Text --}}
         <div>
             <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
@@ -15,16 +13,16 @@
                 {{ $hero->description ?? $homeText }}
             </p>
             <a href="{{ $hero->button_link ?? '#services' }}"
-               class="scroll-btn inline-block bg-orange-500 text-white font-bold px-8 py-4 rounded-full shadow-2xl hover:bg-orange-600 transition-all duration-300">
+               class="scroll-btn inline-block bg-white text-orange-500 font-bold px-8 py-4 rounded-full shadow-2xl hover:bg-slate-100 transition-all duration-300 hover:-translate-y-1">
                 {{ $hero->button_label ?? 'Explore Services ↓' }}
             </a>
         </div>
 
-        {{-- Right Cards --}}
+{{-- Right Cards --}}
         <div class="hidden md:block">
-            <div class="bg-white/75 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
+            <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-white rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+                    <div class="bg-white/90 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
                         <h3 class="font-bold mb-2 text-slate-800 text-sm">
                             {{ $hero->card1_title ?? 'Web Development' }}
                         </h3>
@@ -32,7 +30,7 @@
                             {{ $hero->card1_text ?? 'High-performance sites' }}
                         </p>
                     </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+                    <div class="bg-white/90 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
                         <h3 class="font-bold mb-2 text-slate-800 text-sm">
                             {{ $hero->card2_title ?? 'Cloud & DevOps' }}
                         </h3>
@@ -40,7 +38,7 @@
                             {{ $hero->card2_text ?? 'Scalable infrastructure' }}
                         </p>
                     </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+                    <div class="bg-white/90 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
                         <h3 class="font-bold mb-2 text-slate-800 text-sm">
                             {{ $hero->card3_title ?? 'UI/UX Design' }}
                         </h3>
@@ -48,7 +46,7 @@
                             {{ $hero->card3_text ?? 'Beautiful interfaces' }}
                         </p>
                     </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+                    <div class="bg-white/90 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
                         <h3 class="font-bold mb-2 text-slate-800 text-sm">
                             {{ $hero->card4_title ?? 'Consulting' }}
                         </h3>
@@ -63,9 +61,8 @@
 </section>
 
 {{-- SERVICES SECTION --}}
-<section id="services" class="scroll-animate py-24"
-         style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
-    <div class="max-w-6xl mx-auto px-6">
+<section id="services" class="scroll-animate py-24 bg-slate-100">
+    <div class="max-w-6xl mx-auto px-6 scroll-animate">
         <div class="text-center mb-20">
             <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">Our Services</h2>
             <p class="text-xl text-slate-700 max-w-2xl mx-auto">
@@ -99,7 +96,7 @@
             <section class="text-center">
                 <div class="max-w-4xl mx-auto px-6">
                     <a href="{{ url('/services') }}"
-                       class="inline-block bg-orange-500 text-white font-black text-xl px-16 py-4 rounded-full shadow-2xl hover:bg-orange-600 hover:shadow-3xl transition-all hover:-translate-y-2">
+                       class="inline-block bg-white-500 text-orange-500 font-black text-xl px-16 py-4 rounded-full shadow-2xl hover:bg-600 hover:shadow-3xl transition-all hover:-translate-y-2">
                         View All Services
                     </a>
                 </div>
@@ -123,9 +120,9 @@
 </section>
 
 {{-- OUR STORY SECTION - DYNAMIC FROM ADMIN --}}
-<section id="our-story" class="py-24"
-         style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
-    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+<section id="our-story" class="scroll-animate py-24 bg-slate-100">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center scroll-animate">
+        {{-- Left Text Content --}}
         <div>
             @if($ourStory)
                 <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">
@@ -175,7 +172,7 @@
 
         <div class="relative">
             <div class="absolute -inset-4 bg-orange-400/10 rounded-3xl blur-2xl"></div>
-            <div class="relative bg-slate-900 text-white rounded-3xl p-8 shadow-2xl">
+            <div class="relative bg-orange-500 text-white rounded-3xl p-8 shadow-2xl">
                 @if($ourStory)
                     <h3 class="text-2xl font-bold mb-4">{{ $ourStory->side_title }}</h3>
                     <ul class="space-y-3 text-slate-100 text-base">
@@ -205,9 +202,8 @@
 </section>
 
 {{-- BLOGS SECTION - DYNAMIC FROM DB --}}
-<section id="blogs" class="scroll-animate py-24"
-         style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
-    <div class="max-w-6xl mx-auto px-6">
+<section id="blogs" class="scroll-animate py-24 bg-slate-100">
+    <div class="max-w-6xl mx-auto px-6 scroll-animate">
         <div class="text-center mb-20">
             <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">Latest Blogs</h2>
             <p class="text-xl text-slate-700 max-w-2xl mx-auto">Stay updated with latest IT trends and insights</p>
@@ -235,9 +231,8 @@
 </section>
 
 {{-- OUR CUSTOMERS SECTION --}}
-<section id="customers" class="scroll-animate py-24"
-         style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
-    <div class="max-w-6xl mx-auto px-6">
+<section id="customers" class="scroll-animate py-24 bg-slate-100">
+    <div class="max-w-6xl mx-auto px-6 scroll-animate">
         <div class="text-center mb-16">
             <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-4">
                 Our Customers

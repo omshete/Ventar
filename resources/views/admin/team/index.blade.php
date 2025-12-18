@@ -28,12 +28,12 @@
         <tr class="border-t">
             <td class="px-4 py-2">{{ $member->id }}</td>
             <td class="px-4 py-2">
-                @if($member->photo_path)
-                    <img src="{{ asset('storage/'.$member->photo_path) }}"
-                         alt="{{ $member->name }}"
-                         class="h-10 w-10 rounded-full object-cover">
+                @if($member->photo)
+                    <img src="{{ asset('storage/' . $member->photo) }}"
+                        alt="{{ $member->name }}"
+                        class="h-10 w-10 rounded-full object-cover">
                 @else
-                    <span class="text-xs text-slate-400">No photo</span>
+                    <span class="text-slate-400 text-xs">No photo</span>
                 @endif
             </td>
             <td class="px-4 py-2">{{ $member->name }}</td>

@@ -16,32 +16,11 @@
         </div>
 
         <nav class="p-4 space-y-2 text-sm">
+            
+            {{-- Dashboard menu item --}}
             <a href="{{ route('admin.dashboard') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
                 <b>Dashboard</b>
             </a>
-
-            <a href="{{ route('admin.services.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
-                <b>Services</b>
-            </a>
-
-            <a href="{{ route('admin.blogs.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
-                <b>Blogs</b>
-            </a>
-
-            <a href="{{ route('admin.team.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
-                <b>Team</b>
-            </a>
-
-            <a href="{{ route('admin.home_sections.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
-                <b>Hero Sections</b>
-            </a>
-
-            {{-- Home Content menu item --}}
-            @if (Route::has('admin.home.index'))
-                <a href="{{ route('admin.home.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
-                    <b>Our Story</b>
-                </a>
-            @endif
 
             {{-- Home Hero menu item --}}
             @if (Route::has('admin.home-hero.index'))
@@ -50,10 +29,10 @@
                 </a>
             @endif
 
-            {{-- About Us menu item --}}
-            @if (Route::has('admin.about-us.index'))
-                <a href="{{ route('admin.about-us.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
-                    <b>About Us</b>
+            {{-- Home Content menu item --}}
+            @if (Route::has('admin.home.index'))
+                <a href="{{ route('admin.home.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>Our Story</b>
                 </a>
             @endif
 
@@ -63,19 +42,42 @@
                     <b>Customers</b>
                 </a>
             @endif
-
-            @if (Route::has('admin.aim.index'))
-                <a href="{{ route('admin.aim.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
-                    <b>Our Aim</b>
-                </a>
-            @endif
-
+             
             {{-- Settings menu item --}}
             @if (Route::has('admin.home_settings.index'))
                 <a href="{{ route('admin.home_settings.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
                     <b>Footer Settings</b>
                 </a>
             @endif
+
+            {{-- Services menu item --}}
+            <a href="{{ route('admin.services.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                <b>Services</b>
+            </a>
+
+            {{-- About Us menu item --}}
+            @if (Route::has('admin.about-us.index'))
+                <a href="{{ route('admin.about-us.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>About Us</b>
+                </a>
+            @endif
+
+            {{-- Our Aim menu item --}}
+            @if (Route::has('admin.aim.index'))
+                <a href="{{ route('admin.aim.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>Our Aim</b>
+                </a>
+            @endif
+
+            {{-- Team menu item --}}
+            <a href="{{ route('admin.team.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                <b>Team</b>
+            </a>
+
+            {{-- Blogs menu item --}}
+            <a href="{{ route('admin.blogs.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                <b>Blogs</b>
+            </a>
 
             {{-- Contact Settings menu item --}}
             @if (Route::has('admin.contact-settings.index'))
@@ -84,7 +86,7 @@
                 </a>
             @endif
 
-            
+            {{-- Logout --}}
             <form method="post" action="{{ route('admin.logout') }}" class="mt-4">
                 @csrf
                 <button class="text-xs text-red-400 hover:text-red-200 w-full p-3 rounded-lg bg-slate-800/50 text-left" type="submit">

@@ -3,14 +3,13 @@
 @section('title', $service->title ?? 'Service')
 
 @section('content')
-<section id="hero" class="min-h-screen flex items-center text-slate-900 py-24"
-         style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
+<section id="hero" class="py-26 text-white text-center bg-gradient-to-br from-red-500 to-orange-500 text-white">
     <div class="max-w-4xl mx-auto px-6">
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-6">
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-6">
             {{ $service->title }}
         </h1>
         @if($service->short_description)
-            <p class="text-xl md:text-2xl mb-8 text-slate-700 leading-relaxed">
+            <p class="text-xl md:text-2xl mb-8 text-white leading-relaxed">
                 {{ $service->short_description }}
             </p>
         @endif

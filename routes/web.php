@@ -86,7 +86,8 @@
             Route::resource('home_settings', HomeSettingController::class)->only(['index', 'edit', 'update']);
 
             // About Us CRUD
-            Route::resource('about-us', AboutUsController::class);
+            Route::resource('about-us', AboutUsController::class)->parameters(['about-us' => 'aboutUs']);
+
 
             // Our Aim routes
             Route::resource('aim', AimController::class);

@@ -3,10 +3,9 @@
 @section('title', $aim->title ?? 'Our Aim')
 
 @section('content')
-<section id="hero" class="min-h-screen flex items-center text-slate-900 py-24"
-         style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
+<section id="hero" class="py-26 text-white text-center bg-gradient-to-br from-red-500 to-orange-500">
     <div class="max-w-4xl mx-auto px-6">
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-6">
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-6">
             {{ $aim->title ?? 'Our Aim' }}
         </h1>
         @if($aim && $aim->is_active && $aim->short_description)

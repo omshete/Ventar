@@ -22,11 +22,11 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'         => ['required','string','max:255'],
-            'designation'  => ['nullable','string','max:255'],
-            'linkedin_url' => ['nullable','url'],
-            'order'        => ['nullable','integer'],
-            'photo'        => ['nullable','image','max:2048'],
+            'name'         => 'required|string|max:255',
+            'designation'  => 'nullable|string|max:255',
+            'linkedin_url' => 'nullable|url',
+            'order'        => 'nullable|integer',
+            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -49,11 +49,11 @@ class TeamController extends Controller
     public function update(Request $request, TeamMember $team)
     {
         $data = $request->validate([
-            'name'         => ['required','string','max:255'],
-            'designation'  => ['nullable','string','max:255'],
-            'linkedin_url' => ['nullable','url'],
-            'order'        => ['nullable','integer'],
-            'photo'        => ['nullable','image','max:2048'],
+            'name'         => 'required|string|max:255',
+            'designation'  => 'nullable|string|max:255',
+            'linkedin_url' => 'nullable|url',
+            'order'        => 'nullable|integer',
+            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         if ($request->hasFile('photo')) {

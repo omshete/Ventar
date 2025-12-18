@@ -7,11 +7,11 @@
          style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
     <div class="max-w-6xl mx-auto px-6">
         <div class="text-center mb-20">
-            <h1 class="text-5xl md:text-7xl font-black text-slate-900 mb-6">Latest Blogs</h1>
-            <p class="text-xl text-slate-700 max-w-2xl mx-auto">Stay updated with latest IT trends and insights</p>
+            <h1 class="text-5xl md:text-7xl font-black text-slate-900 mb-6 scroll-animate">Latest Blogs</h1>
+            <p class="text-xl text-slate-700 max-w-2xl mx-auto scroll-animate">Stay updated with latest IT trends and insights</p>
         </div>
 
-        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 scroll-animate">
             @forelse($blogs as $blog)
                 <article class="group bg-white/90 rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer border border-orange-100">
                     <div class="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg text-white">

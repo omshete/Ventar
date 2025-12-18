@@ -3,14 +3,13 @@
 @section('title', $blog->title ?? 'Blog')
 
 @section('content')
-<section class="text-white py-24"
-         style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
+<section class="py-16 text-white bg-gradient-to-br from-red-500 to-orange-500 text-white">
     <div class="max-w-4xl mx-auto px-6">
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-4">
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-4">
             {{ $blog->title }}
         </h1>
 
-        <div class="text-sm md:text-base text-slate-700 mb-6 flex flex-wrap items-center gap-3 opacity-90">
+        <div class="text-sm md:text-base text-white mb-6 flex flex-wrap items-center gap-3 opacity-90">
             @if($blog->published_at)
                 <span>Published {{ $blog->published_at->format('d M Y') }}</span>
             @endif

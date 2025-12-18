@@ -17,7 +17,7 @@
 
         {{-- Validation errors --}}
         @if($errors->any())
-            <div class="mb-8 bg-orange-100 border border-orange-400 text-orange-700 px-6 py-4 rounded-3xl max-w-2xl mx-auto shadow-lg">
+            <div class="mb-8 bg-orange-100 border border-orange-400 text-orange-700 px-6 py-4 rounded-3xl max-w-2xl mx-auto shadow-lg scroll-animate">
                 <ul class="list-disc list-inside">
                     @foreach($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -26,7 +26,7 @@
             </div>
         @endif
 
-        <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <div class="grid lg:grid-cols-2 gap-12 items-start scroll-animate">
             {{-- Contact Form (Left Side) --}}
             <div>
                 <form method="POST" action="{{ route('contact.submit') }}" class="space-y-6 bg-white/90 p-8 rounded-3xl shadow-xl border border-orange-100">
@@ -90,11 +90,13 @@
                 </form>
             </div>
 
-            {{-- Contact Info (Right Side) --}}
+             {{-- Contact Info (Right Side) --}}
             <div class="space-y-8">
-                <div class="bg-orange-500 text-white p-8 rounded-3xl shadow-xl">
+                <div class="bg-orange-500 text-white p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     <h3 class="text-2xl font-black mb-4">Get In Touch</h3>
-                    <p class="text-lg leading-relaxed">Ready to start your next project with us? Send us a message and we'll respond within 24 hours. We're here to help you succeed.</p>
+                    <p class="text-lg leading-relaxed">
+                        Ready to start your next project with us? Send us a message and we'll respond within 24 hours. We're here to help you succeed.
+                    </p>
                 </div>
 
                 <div class="space-y-6">
@@ -105,7 +107,9 @@
                             </div>
                             <h4 class="font-black text-xl text-slate-900 ml-4">Email</h4>
                         </div>
-                        <p class="text-slate-700 text-lg">{{ $contactEmail }}</p>
+                        <p class="text-slate-700 text-lg">
+                            {{ $contact->email ?? 'info@ventar.in' }}
+                        </p>
                     </div>
 
                     <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -115,7 +119,9 @@
                             </div>
                             <h4 class="font-black text-xl text-slate-900 ml-4">Phone</h4>
                         </div>
-                        <p class="text-slate-700 text-lg">{{ $contactPhone }}</p>
+                        <p class="text-slate-700 text-lg">
+                            {{ $contact->phone ?? '+91-9860036529' }}
+                        </p>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -9,7 +10,7 @@ class AboutUsController extends Controller
 {
     public function index()
     {
-        $abouts = AboutUs::orderBy('sort_order')->orderBy('id')->paginate(10);
+        $abouts = AboutUs::orderBy('sort_order')->paginate(10);
         return view('admin.about-us.index', compact('abouts'));
     }
 
@@ -22,12 +23,18 @@ class AboutUsController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'content' => 'required',
             'sort_order' => 'nullable|integer',
-            'is_active' => 'boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        AboutUs::create($request->all());
+        $data = $request->only('title', 'content', 'sort_order', 'is_active');
+        
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('about-us', 'public');
+        }
+
+        AboutUs::create($data);
 
         return redirect()->route('admin.about-us.index')
             ->with('success', 'About Us section created!');
@@ -38,24 +45,39 @@ class AboutUsController extends Controller
         return view('admin.about-us.edit', compact('aboutUs'));
     }
 
-    public function update(Request $request, AboutUs $aboutUs)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'sort_order' => 'nullable|integer',
-            'is_active' => 'boolean',
-        ]);
+    public function update(Request $request, $about_u)
+{
+    $aboutUs = AboutUs::findOrFail($about_u);
+    
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required',
+        'sort_order' => 'nullable|integer',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
 
-        $aboutUs->update($request->all());
-
-        return redirect()->route('admin.about-us.index')
-            ->with('success', 'About Us section updated!');
+    $data = $request->only('title', 'content', 'sort_order', 'is_active');
+    
+    if ($request->hasFile('image')) {
+        if ($aboutUs->image) {
+            \Storage::disk('public')->delete($aboutUs->image);
+        }
+        $data['image'] = $request->file('image')->store('about-us', 'public');
     }
+
+    $aboutUs->update($data);
+
+    return redirect()->route('admin.about-us.index')
+        ->with('success', 'About Us updated successfully!');
+}
 
     public function destroy(AboutUs $aboutUs)
     {
+        if ($aboutUs->image) {
+            \Storage::disk('public')->delete($aboutUs->image);
+        }
         $aboutUs->delete();
+
         return redirect()->route('admin.about-us.index')
             ->with('success', 'About Us section deleted!');
     }

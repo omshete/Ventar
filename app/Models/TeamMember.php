@@ -16,9 +16,9 @@ class TeamMember extends Model
     protected $fillable = [
         'name', 
         'designation',
-        'linkedin_url', 
-        'photo_path', 
+        'linkedin_url',
         'order', 
-        'is_active'
+        'photo',
+        'is_active',
     ];
 }

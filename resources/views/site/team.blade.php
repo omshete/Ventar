@@ -3,7 +3,7 @@
 @section('content')
 <section id="hero" class="min-h-screen flex items-center text-slate-900 py-24"
          style="background: radial-gradient(circle at top left, #ffe1c2 0, #ffe9d4 30%, #fde7d7 55%, #fbe5d5 75%, #f8ddc7 100%);">
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-6xl mx-auto px-6 scroll-animate">
         <h1 class="text-5xl font-black md:text-7xl text-slate-900 text-center mb-16 scroll-animate">Our Team</h1>
 
         <div class="grid gap-8 md:grid-cols-3">
