@@ -89,7 +89,7 @@
             {{-- Logout --}}
             <form method="post" action="{{ route('admin.logout') }}" class="mt-4">
                 @csrf
-                <button class="text-xs text-red-400 hover:text-red-200 w-full p-3 rounded-lg bg-slate-800/50 text-left" type="submit">
+                <button class="text-xs text-orange-400 hover:text-orange-200 w-full p-3 rounded-lg bg-slate-800/50 text-left" type="submit">
                     <b>Logout</b>
                 </button>
             </form>

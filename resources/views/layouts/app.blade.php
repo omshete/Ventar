@@ -222,16 +222,16 @@
         <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
             <div>
                 <h3 class="text-3xl font-black mb-6 text-400">
-                    {{ $homeSetting->footer_company ?? 'Ventar IT Solutions' }}
+                    <a href="/">{{ $homeSetting->footer_company ?? 'Ventar IT Solutions' }}</a>
                 </h3>
                 <p class="text-slate-300">{{ $homeSetting->footer_description ?? 'Your trusted IT partner.' }}</p>
             </div>
             <div>
-                <h4 class="text-xl font-bold mb-6 text-400">Contact Us</h4>
+                <h4 class="text-xl font-bold mb-6 text-400"><a href="/contact-us">Contact Us</a></h4>
                 <div class="space-y-4 text-slate-300">
-                    <div><span class="text-orange-400">✉️</span> {{ $homeSetting->footer_email ?? 'info@ventar.in' }}</div>
-                    <div><span class="text-orange-400">📞</span> {{ $homeSetting->footer_phone ?? '+91 9860036529' }}</div>
-                    <div><span class="text-orange-400">📍</span> {{ $homeSetting->footer_address ?? 'Pune, Maharashtra' }}</div>
+                    <div><span class="text-orange-400">✉️</span><a href="mailto:{{ $homeSetting->footer_email ?? 'info@ventar.in' }}">{{ $homeSetting->footer_email ?? 'info@ventar.in' }}</a></div>
+                    <div><span class="text-orange-400">📞</span><a href="tel:{{ $homeSetting->footer_phone ?? '+91 9860036529' }}">{{ $homeSetting->footer_phone ?? '+91 9860036529' }}</a></div>
+                    <div><span class="text-orange-400">📍</span><a href="https://maps.google.com/?q={{ urlencode($homeSetting->footer_address ?? 'Pune, Maharashtra') }}">{{ $homeSetting->footer_address ?? 'Pune, Maharashtra' }}</a></div>
                 </div>
             </div>
             <div>
@@ -244,7 +244,7 @@
                 </div>
             </div>
         </div>
-        <div class="border-t border-slate-700 text-center py-6 text-xs text-slate-400">
+        <div class="border-t border-slate-700 text-center py-4 text-xs text-slate-400">
             © {{ date('Y') }} {{ $homeSetting->footer_company ?? 'Ventar IT Solutions' }}. All rights reserved.
         </div>
     </footer>

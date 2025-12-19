@@ -90,39 +90,86 @@
                 </form>
             </div>
 
-             {{-- Contact Info (Right Side) --}}
+            {{-- Contact Info (Right Side) - SAFE VERSION --}}
             <div class="space-y-8">
+                {{-- Intro Card --}}
                 <div class="bg-orange-500 text-white p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     <h3 class="text-2xl font-black mb-4">Get In Touch</h3>
                     <p class="text-lg leading-relaxed">
-                        Ready to start your next project with us? Send us a message and we'll respond within 24 hours. We're here to help you succeed.
+                        @isset($contacts)
+                            @php
+                                $activeContact = $contacts->where('is_active', true)->first();
+                            @endphp
+                            @if($activeContact && $activeContact->intro_text)
+                                {!! $activeContact->intro_text !!}
+                            @else
+                                Ready to start your next project with us? Send us a message and we'll respond within 24 hours. We're here to help you succeed.
+                            @endif
+                        @else
+                            Ready to start your next project with us? Send us a message and we'll respond within 24 hours. We're here to help you succeed.
+                        @endisset
                     </p>
                 </div>
 
+                {{-- Contact Details --}}
                 <div class="space-y-6">
-                    <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                        <div class="flex items-center mb-3">
-                            <div class="w-12 h-12 bg-red-500 rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                                📧
+                    {{-- Email Section --}}
+                    @isset($contacts)
+                        @php
+                            $activeContact = $contacts->where('is_active', true)->first();
+                        @endphp
+                        @if($activeContact && $activeContact->email_value)
+                            <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 border-2 border-white">
+                                        <span class="material-icons text-lg">email</span>
+                                    </div>
+                                    <h4 class="font-black text-xl text-slate-900 ml-4">{{ $activeContact->email_label ?? 'Email' }}</h4>
+                                </div>
+                                <p class="text-slate-700 text-lg"><a href="mailto:{{ $activeContact->email_value }}">{{ $activeContact->email_value }}</a></p>
                             </div>
-                            <h4 class="font-black text-xl text-slate-900 ml-4">Email</h4>
-                        </div>
-                        <p class="text-slate-700 text-lg">
-                            {{ $contact->email ?? 'info@ventar.in' }}
-                        </p>
-                    </div>
+                        @endif
+                    @endisset
 
-                    <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                        <div class="flex items-center mb-3">
-                            <div class="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                                📞
+                    {{-- Phone Section --}}
+                    @isset($contacts)
+                        @php
+                            $activeContact = $contacts->where('is_active', true)->first();
+                        @endphp
+                        @if($activeContact && $activeContact->phone_value)
+                            <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 border-2 border-white">
+                                        <span class="material-icons text-lg">phone</span>
+                                    </div>
+                                    <h4 class="font-black text-xl text-slate-900 ml-4">{{ $activeContact->phone_label ?? 'Phone' }}</h4>
+                                </div>
+                                <p class="text-slate-700 text-lg"><a href="tel:{{ $activeContact->phone_value }}">{{ $activeContact->phone_value }}</a></p>
                             </div>
-                            <h4 class="font-black text-xl text-slate-900 ml-4">Phone</h4>
+                        @endif
+                    @endisset
+
+                    {{-- Fallback if no contacts --}}
+                    @unless(isset($contacts) && $contacts->where('is_active', true)->first())
+                        <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 border-2 border-white">
+                                    <span class="material-icons text-lg">email</span>
+                                </div>
+                                <h4 class="font-black text-xl text-slate-900 ml-4">Email</h4>
+                            </div>
+                            <p class="text-slate-700 text-lg">info@ventar.in</p>
                         </div>
-                        <p class="text-slate-700 text-lg">
-                            {{ $contact->phone ?? '+91-9860036529' }}
-                        </p>
-                    </div>
+                        <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 border-2 border-white">
+                                    <span class="material-icons text-lg">phone</span>
+                                </div>
+                                <h4 class="font-black text-xl text-slate-900 ml-4">Phone</h4>
+                            </div>
+                            <p class="text-slate-700 text-lg">+91-9860036529</p>
+                        </div>
+                    @endunless
                 </div>
             </div>
         </div>

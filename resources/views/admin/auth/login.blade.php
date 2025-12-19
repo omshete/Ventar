@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gradient-to-br from-red-500 to-pink-500 min-h-screen flex items-center justify-center">
+<body class="bg-gradient-to-br from-red-500 to-orange-500 min-h-screen flex items-center justify-center">
 <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
     <h1 class="text-2xl font-bold mb-6 text-center">Ventar Admin Login</h1>
 
@@ -30,7 +30,7 @@
             <input type="checkbox" name="remember" id="remember" class="mr-2">
             <label for="remember" class="text-sm">Remember me</label>
         </div>
-        <button class="w-full bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-red-600">
+        <button class="w-full bg-orange-500 text-white font-semibold py-2 rounded-lg hover:bg-orange-600">
             Login
         </button>
     </form>

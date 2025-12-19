@@ -227,12 +227,17 @@ class SiteController extends Controller
      * Contact page (show)
      */
     public function contact()
-    {
-        $contactEmail = $this->getSettingValue('contact_email', 'hello@ventar.com');
-        $contactPhone = $this->getSettingValue('contact_phone', '+91-0000000000');
-
-        return view('site.contact', compact('contactEmail', 'contactPhone'));
+{
+    try {
+        $contacts = ContactSetting::where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+    } catch (\Throwable $e) {
+        $contacts = collect();
     }
+    return view('site.contact', compact('contacts'));
+}
+
 
     /**
      * Contact form submission
