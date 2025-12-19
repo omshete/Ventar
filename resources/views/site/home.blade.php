@@ -18,7 +18,7 @@
             </a>
         </div>
 
-{{-- Right Cards --}}
+        {{-- Right Cards --}}
         <div class="hidden md:block">
             <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
                 <div class="grid grid-cols-2 gap-4">
@@ -60,7 +60,7 @@
     </div>
 </section>
 
-{{-- SERVICES SECTION --}}
+{{-- SERVICES SECTION - FIXED & ROUNDED --}}
 <section id="services" class="scroll-animate py-24 bg-slate-100">
     <div class="max-w-6xl mx-auto px-6 scroll-animate">
         <div class="text-center mb-20">
@@ -74,16 +74,30 @@
             <div class="grid gap-8 md:grid-cols-3 mb-12">
                 @foreach($services as $service)
                     <div class="group bg-white/90 rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border border-orange-100">
-                        <div class="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg text-white">
-                            <span class="text-2xl">{{ $service->icon ?? '⭐' }}</span>
+                        <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg text-white border-4 border-white">
+                            <span class="material-icons text-2xl">
+                                @php
+                                    $title = strtolower($service->title ?? '');
+                                    $icon = 'build';
+                                    if (str_contains($title, 'web') || str_contains($title, 'website')) $icon = 'web';
+                                    elseif (str_contains($title, 'frontend') || str_contains($title, 'react')) $icon = 'code';
+                                    elseif (str_contains($title, 'backend') || str_contains($title, 'laravel')) $icon = 'developer_mode';
+                                    elseif (str_contains($title, 'design') || str_contains($title, 'ui') || str_contains($title, 'ux')) $icon = 'design_services';
+                                    elseif (str_contains($title, 'mobile') || str_contains($title, 'app')) $icon = 'smartphone';
+                                    elseif (str_contains($title, 'cloud')) $icon = 'cloud';
+                                    elseif (str_contains($title, 'support') || str_contains($title, 'maintenance')) $icon = 'support_agent';
+                                    elseif (str_contains($title, 'seo') || str_contains($title, 'marketing')) $icon = 'campaign';
+                                    elseif (str_contains($title, 'ecommerce') || str_contains($title, 'shop') || str_contains($title, 'store')) $icon = 'store';
+                                    elseif (str_contains($title, 'ai') || str_contains($title, 'artificial')) $icon = 'smart_toy';
+                                    elseif (str_contains($title, 'devops')) $icon = 'build';
+                                    echo $icon;
+                                @endphp
+                            </span>
                         </div>
                         <h3 class="text-2xl font-bold text-slate-900 mb-4 leading-tight">{{ $service->title }}</h3>
-
-                        {{-- ONLY SHORT DESCRIPTION ON HOME --}}
                         <p class="text-slate-700 mb-6 leading-relaxed">
-                            {{ Str::limit($service->short_description, 80) }}
+                            {{ Str::limit($service->short_description ?? $service->description ?? '', 80) }}
                         </p>
-
                         <a href="{{ route('services.show', $service->slug ?? $service->id) }}"
                            class="text-orange-500 font-semibold hover:underline inline-flex items-center gap-1">
                             Learn More →
@@ -92,26 +106,20 @@
                 @endforeach
             </div>
 
-            {{-- CTA BELOW SERVICES --}}
             <section class="text-center">
                 <div class="max-w-4xl mx-auto px-6">
                     <a href="{{ url('/services') }}"
-                       class="inline-block bg-white-500 text-orange-500 font-black text-xl px-16 py-4 rounded-full shadow-2xl hover:bg-600 hover:shadow-3xl transition-all hover:-translate-y-2">
+                       class="inline-block bg-orange-500 text-white font-bold text-xl px-16 py-4 rounded-full shadow-2xl hover:bg-orange-600 hover:shadow-3xl transition-all hover:-translate-y-2">
                         View All Services
                     </a>
                 </div>
             </section>
         @else
-            <div class="text-center py-20 col-span-full">
-                <div class="w-24 h-24 bg-orange-400 rounded-3xl flex items-center justify-center mx-auto mb-8 text-4xl">
-                    ✨
-                </div>
+            <div class="text-center py-20">
+                <div class="w-24 h-24 bg-orange-400 rounded-full flex items-center justify-center mx-auto mb-8 text-4xl border-4 border-white shadow-lg">✨</div>
                 <h3 class="text-3xl font-bold text-slate-900 mb-4">Services Coming Soon</h3>
-                <p class="text-xl text-slate-700 max-w-lg mx-auto mb-8">
-                    We're preparing amazing IT solutions for you!
-                </p>
-                <a href="{{ url('/contact-us') }}"
-                   class="bg-orange-500 text-white font-bold px-10 py-4 rounded-full shadow-2xl hover:bg-orange-600 hover:shadow-3xl transition-all">
+                <p class="text-xl text-slate-700 max-w-lg mx-auto mb-8">We're preparing amazing IT solutions for you!</p>
+                <a href="{{ url('/contact-us') }}" class="bg-orange-500 text-white font-bold px-10 py-4 rounded-full shadow-2xl hover:bg-orange-600 hover:shadow-3xl transition-all">
                     Contact Us
                 </a>
             </div>
@@ -119,57 +127,25 @@
     </div>
 </section>
 
-{{-- OUR STORY SECTION - DYNAMIC FROM ADMIN --}}
+{{-- OUR STORY SECTION --}}
 <section id="our-story" class="scroll-animate py-24 bg-slate-100">
     <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center scroll-animate">
-        {{-- Left Text Content --}}
         <div>
             @if($ourStory)
-                <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-                    {{ $ourStory->title }}
-                </h2>
-                <p class="text-lg text-slate-700 mb-4 leading-relaxed">
-                    {{ $ourStory->paragraph_1 }}
-                </p>
-                @if($ourStory->paragraph_2)
-                    <p class="text-lg text-slate-700 mb-4 leading-relaxed">
-                        {{ $ourStory->paragraph_2 }}
-                    </p>
-                @endif
-                @if($ourStory->paragraph_3)
-                    <p class="text-lg text-slate-700 leading-relaxed">
-                        {{ $ourStory->paragraph_3 }}
-                    </p>
-                @endif
-                @if($ourStory->paragraph_4)
-                    <p class="text-lg text-slate-700 leading-relaxed">
-                        {{ $ourStory->paragraph_4 }}
-                    </p>
-                @endif
-                @if($ourStory->paragraph_5)
-                    <p class="text-lg text-slate-700 leading-relaxed">
-                        {{ $ourStory->paragraph_5 }}
-                    </p>
-                @endif
-                @if($ourStory->paragraph_6)
-                    <p class="text-lg text-slate-700 leading-relaxed">
-                        {{ $ourStory->paragraph_6 }}
-                    </p>
-                @endif
+                <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">{{ $ourStory->title }}</h2>
+                <p class="text-lg text-slate-700 mb-4 leading-relaxed">{{ $ourStory->paragraph_1 }}</p>
+                @if($ourStory->paragraph_2)<p class="text-lg text-slate-700 mb-4 leading-relaxed">{{ $ourStory->paragraph_2 }}</p>@endif
+                @if($ourStory->paragraph_3)<p class="text-lg text-slate-700 leading-relaxed">{{ $ourStory->paragraph_3 }}</p>@endif
+                @if($ourStory->paragraph_4)<p class="text-lg text-slate-700 leading-relaxed">{{ $ourStory->paragraph_4 }}</p>@endif
+                @if($ourStory->paragraph_5)<p class="text-lg text-slate-700 leading-relaxed">{{ $ourStory->paragraph_5 }}</p>@endif
+                @if($ourStory->paragraph_6)<p class="text-lg text-slate-700 leading-relaxed">{{ $ourStory->paragraph_6 }}</p>@endif
             @else
                 <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">Our Story</h2>
-                <p class="text-lg text-slate-700 mb-4 leading-relaxed">
-                    Ventar was started with a simple goal: help businesses grow through reliable, modern technology solutions.
-                </p>
-                <p class="text-lg text-slate-700 mb-4 leading-relaxed">
-                    From small startups to established enterprises, the team has worked across industries to build scalable, secure and user-friendly digital products.
-                </p>
-                <p class="text-lg text-slate-700 leading-relaxed">
-                    The focus is on long-term partnerships, transparent communication, and delivering real business results—not just code.
-                </p>
+                <p class="text-lg text-slate-700 mb-4 leading-relaxed">Ventar was started with a simple goal: help businesses grow through reliable, modern technology solutions.</p>
+                <p class="text-lg text-slate-700 mb-4 leading-relaxed">From small startups to established enterprises, the team has worked across industries to build scalable, secure and user-friendly digital products.</p>
+                <p class="text-lg text-slate-700 leading-relaxed">The focus is on long-term partnerships, transparent communication, and delivering real business results—not just code.</p>
             @endif
         </div>
-
         <div class="relative">
             <div class="absolute -inset-4 bg-orange-400/10 rounded-3xl blur-2xl"></div>
             <div class="relative bg-orange-500 text-white rounded-3xl p-8 shadow-2xl">
@@ -201,7 +177,7 @@
     </div>
 </section>
 
-{{-- BLOGS SECTION - DYNAMIC FROM DB --}}
+{{-- BLOGS SECTION - GOOGLE MATERIAL ICONS (MATCHES BLOGS PAGE) --}}
 <section id="blogs" class="scroll-animate py-24 bg-slate-100">
     <div class="max-w-6xl mx-auto px-6 scroll-animate">
         <div class="text-center mb-20">
@@ -212,9 +188,26 @@
         <div class="grid gap-8 md:grid-cols-3">
             @forelse($blogs as $blog)
                 <article class="group bg-white/90 rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer">
-                    <div class="w-12 h-12 bg-orange-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-white">
-                        <span class="text-xl">{{ $blog->icon ?? '📝' }}</span>
+                    {{-- 👇 DYNAMIC GOOGLE MATERIAL ICON - SAME AS BLOGS PAGE 👇 --}}
+                    <div class="w-15 h-15 bg-orange-500 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-white border-2 border-white shadow-md">
+                        <span class="material-icons text-xl">
+                            @php
+                                $title = strtolower($blog->title ?? '');
+                                $icon = 'article';
+                                if (str_contains($title, 'react') || str_contains($title, 'javascript')) $icon = 'code';
+                                elseif (str_contains($title, 'laravel') || str_contains($title, 'php')) $icon = 'developer_mode';
+                                elseif (str_contains($title, 'web') || str_contains($title, 'website')) $icon = 'web';
+                                elseif (str_contains($title, 'design') || str_contains($title, 'ui') || str_contains($title, 'ux')) $icon = 'design_services';
+                                elseif (str_contains($title, 'mobile') || str_contains($title, 'app')) $icon = 'smartphone';
+                                elseif (str_contains($title, 'cloud') || str_contains($title, 'aws')) $icon = 'cloud';
+                                elseif (str_contains($title, 'seo') || str_contains($title, 'marketing')) $icon = 'campaign';
+                                elseif (str_contains($title, 'security') || str_contains($title, 'cyber')) $icon = 'security';
+                                echo $icon;
+                            @endphp
+                        </span>
                     </div>
+                    {{-- 👆 DYNAMIC GOOGLE MATERIAL ICON - SAME AS BLOGS PAGE 👆 --}}
+                    
                     <h3 class="text-xl font-bold text-slate-900 mb-4 leading-tight">{{ Str::limit($blog->title, 50) }}</h3>
                     <p class="text-slate-700 mb-6 leading-relaxed">{{ Str::limit(strip_tags($blog->content), 80) }}</p>
                     <a href="{{ route('blogs.show', $blog->slug ?? $blog->id) }}" class="text-orange-500 font-semibold hover:underline flex items-center gap-2">
@@ -234,12 +227,8 @@
 <section id="customers" class="scroll-animate py-24 bg-slate-100">
     <div class="max-w-6xl mx-auto px-6 scroll-animate">
         <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-                Our Customers
-            </h2>
-            <p class="text-xl text-slate-700 max-w-2xl mx-auto">
-                Brands and businesses that trust Ventar for reliable IT solutions.
-            </p>
+            <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-4">Our Customers</h2>
+            <p class="text-xl text-slate-700 max-w-2xl mx-auto">Brands and businesses that trust Ventar for reliable IT solutions.</p>
         </div>
 
         @if(isset($customers) && $customers->count() > 0)
@@ -248,36 +237,24 @@
                     <div class="group bg-white/90 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-orange-100">
                         <div class="flex items-center justify-center mb-4 h-16">
                             @if($customer->logo_path)
-                                <img src="{{ asset('storage/'.$customer->logo_path) }}"
-                                     alt="{{ $customer->name }}"
-                                     class="max-h-14 w-auto object-contain">
+                                <img src="{{ asset('storage/'.$customer->logo_path) }}" alt="{{ $customer->name }}" class="max-h-14 w-auto object-contain">
                             @else
-                                <span class="text-2xl font-bold text-slate-400">
-                                    {{ strtoupper(substr($customer->name, 0, 1)) }}
-                                </span>
+                                <span class="text-2xl font-bold text-slate-400">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
                             @endif
                         </div>
-                        <h3 class="text-lg font-semibold text-slate-900 text-center mb-1">
-                            {{ $customer->name }}
-                        </h3>
+                        <h3 class="text-lg font-semibold text-slate-900 text-center mb-1">{{ $customer->name }}</h3>
                         @if($customer->company_name)
-                            <p class="text-sm text-slate-700 text-center mb-1">
-                                {{ $customer->company_name }}
-                            </p>
+                            <p class="text-sm text-slate-700 text-center mb-1">{{ $customer->company_name }}</p>
                         @endif
                         @if($customer->address)
-                            <p class="text-xs text-slate-500 text-center">
-                                {{ $customer->address }}
-                            </p>
+                            <p class="text-xs text-slate-500 text-center">{{ $customer->address }}</p>
                         @endif
                     </div>
                 @endforeach
             </div>
         @else
             <div class="text-center py-16">
-                <p class="text-lg text-slate-500">
-                    Customers will appear here once added from the admin panel.
-                </p>
+                <p class="text-lg text-slate-500">Customers will appear here once added from the admin panel.</p>
             </div>
         @endif
     </div>

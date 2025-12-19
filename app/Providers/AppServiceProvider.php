@@ -23,5 +23,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         view()->share('homeSetting', $homeSetting);
+
+        require_once app_path('Helpers/ServiceHelper.php');
     }
 }

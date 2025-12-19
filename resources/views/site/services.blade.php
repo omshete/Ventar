@@ -15,9 +15,31 @@
         <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 scroll-animate">
             @forelse($services as $service)
                 <div class="group bg-white/90 rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border border-orange-100">
-                    <div class="w-20 h-20 bg-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg text-white">
-                        <span class="text-3xl">{{ $service->icon ?? '⭐' }}</span>
+                    
+                    {{-- 👇 PASTE YOUR ICON CODE EXACTLY HERE 👇 --}}
+                    {{-- DYNAMIC GOOGLE MATERIAL ICON - DIRECT BLADE --}}
+                    <div class="w-15 h-15 bg-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg text-white">
+                        <span class="material-icons text-3xl">
+                            @php
+                                $title = strtolower($service->title);
+                                $icon = 'build'; // Default
+                                
+                                if (str_contains($title, 'web') || str_contains($title, 'website')) $icon = 'web';
+                                elseif (str_contains($title, 'frontend') || str_contains($title, 'react')) $icon = 'code';
+                                elseif (str_contains($title, 'backend') || str_contains($title, 'laravel')) $icon = 'developer_mode';
+                                elseif (str_contains($title, 'design') || str_contains($title, 'ui') || str_contains($title, 'ux')) $icon = 'design_services';
+                                elseif (str_contains($title, 'mobile') || str_contains($title, 'app')) $icon = 'smartphone';
+                                elseif (str_contains($title, 'cloud')) $icon = 'cloud';
+                                elseif (str_contains($title, 'support')) $icon = 'support_agent';
+                                elseif (str_contains($title, 'seo') || str_contains($title, 'marketing')) $icon = 'campaign';
+                                elseif (str_contains($title, 'ecommerce') || str_contains($title, 'shop')) $icon = 'store';
+                                
+                                echo $icon;
+                            @endphp
+                        </span>
                     </div>
+                    {{-- 👆 PASTE YOUR ICON CODE EXACTLY HERE 👆 --}}
+                    
                     <h2 class="text-3xl font-bold text-slate-900 mb-4">{{ $service->title }}</h2>
 
                     @if($service->short_description)
