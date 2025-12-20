@@ -264,11 +264,13 @@
                                 @endforeach
                             @else
                                 {{-- FALLBACK DEFAULT LINKS - VERTICAL --}}
-                                <a href="{{ url('/') }}" class="footer-pages-link">Home</a>
-                                <a href="{{ url('/services') }}" class="footer-pages-link">Services</a>
-                                <a href="{{ url('/about-us') }}" class="footer-pages-link">About</a>
-                                <a href="{{ url('/blogs') }}" class="footer-pages-link">Blogs</a>
-                                <a href="{{ url('/contact-us') }}" class="footer-pages-link">Contact</a>
+                                <div class="flex flex-col">
+                                    <a href="{{ url('/') }}" class="footer-pages-link">Home</a>
+                                    <a href="{{ url('/services') }}" class="footer-pages-link">Services</a>
+                                    <a href="{{ url('/about-us') }}" class="footer-pages-link">About</a>
+                                    <a href="{{ url('/blogs') }}" class="footer-pages-link">Blogs</a>
+                                    <a href="{{ url('/contact-us') }}" class="footer-pages-link">Contact</a>
+                                </div>
                             @endif
                         </div>
                     </div>
