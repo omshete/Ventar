@@ -12,8 +12,9 @@ use App\Models\Customer;
 use App\Models\HomeStory;
 use App\Models\Aim;
 use App\Models\AboutUs;
-use App\Models\ContactSetting; // <-- only if you created the ContactSetting model
-use App\Models\HomeHero; // <-- only if you created the HomeHero model
+use App\Models\ContactSetting;
+use App\Models\HomeHero;
+use App\Models\Career; // ← NEW: Added for careers
 use App\Mail\ContactMessageMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -224,20 +225,44 @@ class SiteController extends Controller
     }
 
     /**
-     * Contact page (show)
+     * Contact page (show) - UPDATED WITH CAREERS
      */
     public function contact()
-{
-    try {
-        $contacts = ContactSetting::where('is_active', true)
-            ->orderBy('sort_order', 'asc')
-            ->get();
-    } catch (\Throwable $e) {
-        $contacts = collect();
+    {
+        try {
+            $contacts = ContactSetting::where('is_active', true)
+                ->orderBy('sort_order', 'asc')
+                ->get();
+            
+            // NEW: Load active career for contact page right card
+            $career = \App\Models\Career::where('is_active', true)
+                ->orderBy('sort_order')
+                ->first();
+        } catch (\Throwable $e) {
+            \Log::error('Contact page load error: ' . $e->getMessage());
+            $contacts = collect();
+            $career = null;
+        }
+        
+        return view('site.contact', compact('contacts', 'career'));
     }
-    return view('site.contact', compact('contacts'));
-}
 
+    /**
+     * NEW: Careers page
+     */
+    public function careers()
+    {
+        try {
+            $careers = \App\Models\Career::where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        } catch (\Throwable $e) {
+            \Log::error('Careers page load error: ' . $e->getMessage());
+            $careers = collect();
+        }
+        
+        return view('site.careers', compact('careers'));
+    }
 
     /**
      * Contact form submission

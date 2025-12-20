@@ -86,6 +86,14 @@
                 </a>
             @endif
 
+            {{-- Careers menu item --}}
+            @if (Route::has('admin.careers.index'))
+                <a href="{{ route('admin.careers.index') }}" class="block hover:text-white p-3 rounded-lg bg-slate-800/50">
+                    <b>Careers</b>
+                </a>
+            @endif
+
+
             {{-- Logout --}}
             <form method="post" action="{{ route('admin.logout') }}" class="mt-4">
                 @csrf

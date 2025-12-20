@@ -90,7 +90,7 @@
                 </form>
             </div>
 
-            {{-- Contact Info (Right Side) - SAFE VERSION --}}
+            {{-- Contact Info (Right Side) --}}
             <div class="space-y-8">
                 {{-- Intro Card --}}
                 <div class="bg-orange-500 text-white p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -148,6 +148,24 @@
                             </div>
                         @endif
                     @endisset
+
+                    {{-- Careers Section - NEW ADDITION --}}
+                    <div class="bg-white/90 p-6 rounded-3xl shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 border-2 border-white">
+                                <span class="material-icons text-lg">work</span>
+                            </div>
+                            <h4 class="font-black text-xl text-slate-900 ml-4">Careers</h4>
+                        </div>
+                        <p class="text-slate-700 text-lg mb-4">
+                            Join our growing team! We're hiring passionate developers, designers & innovators.
+                        </p>
+                        <a href="{{ route('careers') }}" 
+                           class="inline-flex items-center bg-orange-500 text-white font-bold px-6 py-3 rounded-xl hover:bg-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                            <span class="material-icons text-sm mr-2">arrow_forward</span>
+                            Explore Opportunities
+                        </a>
+                    </div>
 
                     {{-- Fallback if no contacts --}}
                     @unless(isset($contacts) && $contacts->where('is_active', true)->first())

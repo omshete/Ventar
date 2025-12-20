@@ -1,102 +1,108 @@
-    <?php
+<?php
 
-    use Illuminate\Support\Facades\Route;
-    use App\Http\Controllers\SiteController;
-    use App\Http\Controllers\Admin\AuthController;
-    use App\Http\Controllers\Admin\ServiceController;
-    use App\Http\Controllers\Admin\BlogController;
-    use App\Http\Controllers\Admin\TeamController;
-    use App\Http\Controllers\Admin\HomeSectionController;
-    use App\Http\Controllers\Admin\HomeSettingController;
-    use App\Http\Controllers\Admin\CustomerController;
-    use App\Http\Controllers\Admin\HomeStoryController;
-    use App\Http\Controllers\Admin\AboutUsController;
-    use App\Http\Controllers\Admin\AimController;
-    use App\Http\Controllers\Admin\HomeHeroController;
-    use App\Http\Controllers\Admin\ContactSettingController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiteController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\HomeSectionController;
+use App\Http\Controllers\Admin\HomeSettingController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\HomeStoryController;
+use App\Http\Controllers\Admin\AboutUsController;
+use App\Http\Controllers\Admin\AimController;
+use App\Http\Controllers\Admin\HomeHeroController;
+use App\Http\Controllers\Admin\ContactSettingController;
+use App\Http\Controllers\Admin\CareerController; // ← NEW: Added
 
-    /*
-    |--------------------------------------------------------------------------
-    | Public site routes
-    |--------------------------------------------------------------------------
-    */
+/*
+|--------------------------------------------------------------------------
+| Public site routes
+|--------------------------------------------------------------------------
+*/
 
-    Route::get('/', [SiteController::class, 'index'])->name('index');
-    Route::get('/services', [SiteController::class, 'services'])->name('services');
-    Route::get('/services/{service}', [SiteController::class, 'serviceDetail'])->name('services.show');
+Route::get('/', [SiteController::class, 'index'])->name('index');
+Route::get('/services', [SiteController::class, 'services'])->name('services');
+Route::get('/services/{service}', [SiteController::class, 'serviceDetail'])->name('services.show');
 
-    Route::get('/about-us', [SiteController::class, 'about'])->name('about');
-    Route::get('/our-aim', [SiteController::class, 'aim'])->name('aim');
-    Route::get('/team', [SiteController::class, 'team'])->name('team');
-    Route::get('/blogs', [SiteController::class, 'blogs'])->name('blogs.index');
-    Route::get('/blogs/{blog}', [SiteController::class, 'blogDetail'])->name('blogs.show');
-    Route::get('/contact-us', [SiteController::class, 'contact'])->name('contact');
-    Route::post('/contact-us', [SiteController::class, 'submitContact'])->name('contact.submit');
+Route::get('/about-us', [SiteController::class, 'about'])->name('about');
+Route::get('/our-aim', [SiteController::class, 'aim'])->name('aim');
+Route::get('/team', [SiteController::class, 'team'])->name('team');
+Route::get('/blogs', [SiteController::class, 'blogs'])->name('blogs.index');
+Route::get('/blogs/{blog}', [SiteController::class, 'blogDetail'])->name('blogs.show');
+Route::get('/contact-us', [SiteController::class, 'contact'])->name('contact');
+Route::post('/contact-us', [SiteController::class, 'submitContact'])->name('contact.submit');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Admin routes
-    |--------------------------------------------------------------------------
-    */
+// ← NEW: Careers route (REPLACED closure with controller)
+Route::get('/careers', [SiteController::class, 'careers'])->name('careers');
 
-    Route::prefix('admin')->name('admin.')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| Admin routes
+|--------------------------------------------------------------------------
+*/
 
-        // Public login routes (no auth required)
-        Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.show');
-        Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::prefix('admin')->name('admin.')->group(function () {
 
-        // Protected routes (require admin.auth middleware)
-        Route::middleware('admin.auth')->group(function () {
+    // Public login routes (no auth required)
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.show');
+    Route::post('login', [AuthController::class, 'login'])->name('login');
 
-            Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    // Protected routes (require admin.auth middleware)
+    Route::middleware('admin.auth')->group(function () {
 
-            Route::get('dashboard', function () {
-                return view('admin.dashboard');
-            })->name('dashboard');
+        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-            // Services CRUD
-            Route::resource('services', ServiceController::class);
-            
-            // Our Story routes - FIXED
-            Route::get('home', [HomeStoryController::class, 'index'])->name('home.index');
-            Route::get('home/edit', [HomeStoryController::class, 'edit'])->name('home.edit');
-            Route::put('home', [HomeStoryController::class, 'update'])->name('home.update');
+        Route::get('dashboard', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
 
-            // Blogs CRUD
-            Route::resource('blogs', BlogController::class);
+        // Services CRUD
+        Route::resource('services', ServiceController::class);
+        
+        // Our Story routes - FIXED
+        Route::get('home', [HomeStoryController::class, 'index'])->name('home.index');
+        Route::get('home/edit', [HomeStoryController::class, 'edit'])->name('home.edit');
+        Route::put('home', [HomeStoryController::class, 'update'])->name('home.update');
 
-            // Customers CRUD
-            Route::resource('customers', CustomerController::class)->except(['show']);
+        // Blogs CRUD
+        Route::resource('blogs', BlogController::class);
 
-            // Team CRUD
-            Route::resource('team', TeamController::class);
+        // Customers CRUD
+        Route::resource('customers', CustomerController::class)->except(['show']);
 
-            // Home sections CRUD
-            Route::resource('home-sections', HomeSectionController::class)
-            ->names([
-                'index'   => 'home_sections.index',
-                'create'  => 'home_sections.create',
-                'store'   => 'home_sections.store',
-                'edit'    => 'home_sections.edit',
-                'update'  => 'home_sections.update',
-                'destroy' => 'home_sections.destroy',
-            ]);
+        // Team CRUD
+        Route::resource('team', TeamController::class);
 
-            // Home Settings
-            Route::resource('home_settings', HomeSettingController::class)->only(['index', 'edit', 'update']);
+        // Home sections CRUD
+        Route::resource('home-sections', HomeSectionController::class)
+        ->names([
+            'index'   => 'home_sections.index',
+            'create'  => 'home_sections.create',
+            'store'   => 'home_sections.store',
+            'edit'    => 'home_sections.edit',
+            'update'  => 'home_sections.update',
+            'destroy' => 'home_sections.destroy',
+        ]);
 
-            // About Us CRUD
-            Route::resource('about-us', AboutUsController::class)->parameters(['about-us' => 'aboutUs']);
+        // Home Settings
+        Route::resource('home_settings', HomeSettingController::class)->only(['index', 'edit', 'update']);
 
+        // About Us CRUD
+        Route::resource('about-us', AboutUsController::class)->parameters(['about-us' => 'aboutUs']);
 
-            // Our Aim routes
-            Route::resource('aim', AimController::class);
+        // Our Aim routes
+        Route::resource('aim', AimController::class);
 
-            // Home Hero CRUD
-            Route::resource('home-hero', HomeHeroController::class)->names('home-hero');
+        // Home Hero CRUD
+        Route::resource('home-hero', HomeHeroController::class)->names('home-hero');
 
-            // Contact Settings CRUD
-            Route::resource('contact-settings', ContactSettingController::class)
-            ->names('contact-settings');
-        });
+        // Contact Settings CRUD
+        Route::resource('contact-settings', ContactSettingController::class)
+        ->names('contact-settings');
+
+        // ← NEW: Careers CRUD (inside admin.auth middleware)
+        Route::resource('careers', CareerController::class);
     });
+});
