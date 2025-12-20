@@ -123,7 +123,7 @@
              x-transition:enter-start="opacity-0 -translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
              x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
              x-transition:leave-end="opacity-0 -translate-y-4"
              @click.away="openMenu = false"
              class="md:hidden bg-white/95 backdrop-blur-md border-t border-orange-100 shadow-2xl">
@@ -213,6 +213,18 @@
             transition: all 0.8s ease-out;
         }
         .scroll-animate.in-view { opacity: 1; transform: translateY(0); }
+
+        /* FOOTER PAGES LINKS - VERTICAL */
+        .footer-pages-link {
+            display: block;
+            color: #f97316; font-weight: 600; 
+            transition: all 0.2s ease; padding: 8px 0;
+            border-radius: 6px;
+        }
+        .footer-pages-link:hover { 
+            color: #ea580c; padding-left: 8px;
+            text-decoration: none; 
+        }
     </style>
 
     <main class="min-h-screen">@yield('content')</main>
@@ -221,26 +233,56 @@
     <footer class="bg-gradient-to-r from-slate-900 to-slate-800 text-slate-100">
         <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
             <div>
-                <h3 class="text-3xl font-black mb-6 text-400">
+                <h3 class="text-3xl font-black mb-6 text-white">
                     <a href="/">{{ $homeSetting->footer_company ?? 'Ventar IT Solutions' }}</a>
                 </h3>
                 <p class="text-slate-300">{{ $homeSetting->footer_description ?? 'Your trusted IT partner.' }}</p>
             </div>
-            <div>
-                <h4 class="text-xl font-bold mb-6 text-400"><a href="/contact-us">Contact Us</a></h4>
-                <div class="space-y-4 text-slate-300">
-                    <div><span class="text-orange-400">✉️</span><a href="mailto:{{ $homeSetting->footer_email ?? 'info@ventar.in' }}">{{ $homeSetting->footer_email ?? 'info@ventar.in' }}</a></div>
-                    <div><span class="text-orange-400">📞</span><a href="tel:{{ $homeSetting->footer_phone ?? '+91 9860036529' }}">{{ $homeSetting->footer_phone ?? '+91 9860036529' }}</a></div>
-                    <div><span class="text-orange-400">📍</span><a href="https://maps.google.com/?q={{ urlencode($homeSetting->footer_address ?? 'Pune, Maharashtra') }}">{{ $homeSetting->footer_address ?? 'Pune, Maharashtra' }}</a></div>
-                </div>
-            </div>
-            <div>
-                <h4 class="text-xl font-bold mb-6 text-400">Follow Us</h4>
-                <div class="flex gap-4">
-                    <a href="{{ $homeSetting->footer_x ?? '#' }}" target="_blank" class="w-12 h-12 bg-slate-700 rounded-xl flex items-center justify-center transition-all"><i class="fab fa-x-twitter"></i></a>
-                    <a href="{{ $homeSetting->footer_linkedin ?? '#' }}" target="_blank" class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center transition-all"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="{{ $homeSetting->footer_facebook ?? '#' }}" target="_blank" class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center transition-all"><i class="fab fa-facebook-f"></i></a>
-                    <a href="{{ $homeSetting->footer_instagram ?? '#' }}" target="_blank" class="w-12 h-12 bg-gradient-to-r from-pink-500 to-orange-500 rounded-xl flex items-center justify-center transition-all"><i class="fab fa-instagram"></i></a>
+            
+            {{-- CONTACT US + QUICK LINKS + FOLLOW US - SAME ROW --}}
+            <div class="md:col-span-2">
+                <div class="grid md:grid-cols-3 gap-8">
+                    {{-- Contact Us --}}
+                    <div>
+                        <h4 class="text-xl font-bold mb-6 text-white"><a href="/contact-us">Contact Us</a></h4>
+                        <div class="space-y-4 text-slate-300">
+                            <div><span class="text-orange-400">✉️</span><a href="mailto:{{ $homeSetting->footer_email ?? 'info@ventar.in' }}">{{ $homeSetting->footer_email ?? 'info@ventar.in' }}</a></div>
+                            <div><span class="text-orange-400">📞</span><a href="tel:{{ $homeSetting->footer_phone ?? '+91 9860036529' }}">{{ $homeSetting->footer_phone ?? '+91 9860036529' }}</a></div>
+                            <div><span class="text-orange-400">📍</span><a href="https://maps.google.com/?q={{ urlencode($homeSetting->footer_address ?? 'Pune, Maharashtra') }}">{{ $homeSetting->footer_address ?? 'Pune, Maharashtra' }}</a></div>
+                        </div>
+                    </div>
+                    
+                    {{-- NAVBAR PAGES LINKS - VERTICAL (ONE AFTER ANOTHER) --}}
+                    <div>
+                        <h4 class="text-xl font-bold mb-2 text-white">Quick Links</h4>
+                        <div class="flex flex flex-col">
+                            @if(isset($footerPages) && count($footerPages) > 0)
+                                @foreach($footerPages as $page)
+                                    <a href="{{ url($page->slug) }}" class="footer-pages-link">
+                                        {{ $page->title }}
+                                    </a>
+                                @endforeach
+                            @else
+                                {{-- FALLBACK DEFAULT LINKS - VERTICAL --}}
+                                <a href="{{ url('/') }}" class="footer-pages-link">Home</a>
+                                <a href="{{ url('/services') }}" class="footer-pages-link">Services</a>
+                                <a href="{{ url('/about-us') }}" class="footer-pages-link">About</a>
+                                <a href="{{ url('/blogs') }}" class="footer-pages-link">Blogs</a>
+                                <a href="{{ url('/contact-us') }}" class="footer-pages-link">Contact</a>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    {{-- Follow Us - SAME LINE --}}
+                    <div>
+                        <h4 class="text-xl font-bold mb-6 text-white">Follow Us</h4>
+                        <div class="flex gap-4">
+                            <a href="{{ $homeSetting->footer_x ?? '#' }}" target="_blank" class="w-12 h-12 bg-slate-700 rounded-xl flex items-center justify-center hover:shadow-3xl transition-all hover:-translate-y-2 hover:bg-black"><i class="fab fa-x-twitter"></i></a>
+                            <a href="{{ $homeSetting->footer_linkedin ?? '#' }}" target="_blank" class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center hover:shadow-3xl transition-all hover:-translate-y-2 hover:bg-blue-700"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="{{ $homeSetting->footer_facebook ?? '#' }}" target="_blank" class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center hover:shadow-3xl transition-all hover:-translate-y-2 hover:bg-blue-700"><i class="fab fa-facebook-f"></i></a>
+                            <a href="{{ $homeSetting->footer_instagram ?? '#' }}" target="_blank" class="w-12 h-12 bg-gradient-to-r from-pink-500 to-orange-500 rounded-xl flex items-center justify-center hover:shadow-3xl transition-all hover:-translate-y-2 hover:from-pink-600 hover:to-orange-600"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

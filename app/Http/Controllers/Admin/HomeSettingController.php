@@ -38,6 +38,7 @@ class HomeSettingController extends Controller
             'footer_linkedin'     => 'nullable|string|max:255',
             'footer_facebook'     => 'nullable|string|max:255',
             'footer_instagram'    => 'nullable|string|max:255',
+            'footer_quick_links' => 'nullable|string|max:1000',
         ]);
 
         $home_setting->update($data);
