@@ -8,23 +8,22 @@
     @vite('resources/css/app.css')
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-slate-50">
     {{-- Loader --}}
-    <div id="loader" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600">
-        <div class="relative flex flex-col items-center">
+    <div id="loader" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600 text-white">
+        <div class="relative flex flex-col items-center text-white">
             @if(!empty($homeSetting->logo))
                 <img src="{{ asset('storage/'.$homeSetting->logo) }}"
                      alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
-                     class="h-25 w-auto mb-4">
+                     class="h-50 w-auto mb-4">
             @else
                 <img src="{{ asset('images/ventar-logo.svg') }}"
                      alt="{{ $homeSetting->site_title ?? 'Ventar' }}"
-                     class="h-25 w-auto mb-4">
+                     class="h-50 w-auto mb-4">
             @endif
             <div class="paper-plane w-8 h-8 bg-white rounded-full shadow-lg"></div>
             <p class="mt-4 text-white text-lg font-semibold">
@@ -57,13 +56,13 @@
                 </a>
             </div>
 
-            {{-- DESKTOP MENU - DROPDOWN ALWAYS VISIBLE --}}
+            {{-- DESKTOP MENU --}}
             <nav class="hidden md:flex items-center gap-8 text-base animate-slide-down">
                 <a href="{{ url('/') }}" class="nav-link {{ request()->is('/') ? 'active-nav' : '' }}">Home</a>
                 <a href="{{ url('/services') }}" class="nav-link {{ request()->is('services*') ? 'active-nav' : '' }}">Services</a>
 
-                {{-- ABOUT DROPDOWN - ALWAYS SHOWS + CLICK ONLY --}}
-                <div class="relative {{ request()->is('about-us*', 'our-aim*', 'team*') ? 'active-dropdown' : '' }}">
+                {{-- FIXED DESKTOP ABOUT DROPDOWN --}}
+                <div class="relative {{ request()->is('about-us*', 'our-aim*', 'team*') ? 'active-dropdown' : '' }}" x-data="{ showAbout: false }">
                     <button @click="showAbout = !showAbout"
                             class="nav-link inline-flex items-center gap-2 px-4 py-2 focus:outline-none rounded-xl {{ request()->is('about-us*', 'our-aim*', 'team*') ? 'active-nav' : '' }}">
                         About Us 
@@ -133,14 +132,22 @@
                 <a href="{{ url('/') }}" class="block mobile-link {{ request()->is('/') ? 'mobile-active' : '' }}">Home</a>
                 <a href="{{ url('/services') }}" class="block mobile-link {{ request()->is('services*') ? 'mobile-active' : '' }}">Services</a>
 
-                {{-- MOBILE ABOUT --}}
-                <div class="border-l-4 {{ request()->is('about-us*', 'our-aim*', 'team*') ? 'border-orange-400 bg-orange-50/30 pl-4 py-2 rounded-r-xl' : 'border-orange-200 pl-4 py-2' }}">
-                    <button class="w-full flex justify-between items-center mobile-link py-3 {{ request()->is('about-us*', 'our-aim*', 'team*') ? 'mobile-active' : '' }}">
+                {{-- FIXED MOBILE ABOUT DROPDOWN --}}
+                <div x-data="{ showMobileAbout: false }" class="border-l-4 {{ request()->is('about-us*', 'our-aim*', 'team*') ? 'border-orange-400 bg-orange-50/30 pl-4 py-2 rounded-r-xl' : 'border-orange-200 pl-4 py-2' }}">
+                    <button @click="showMobileAbout = !showMobileAbout" 
+                            class="w-full flex justify-between items-center mobile-link py-3 {{ request()->is('about-us*', 'our-aim*', 'team*') ? 'mobile-active' : '' }}">
                         <span>About Us</span>
-                        <i class="fas fa-chevron-down text-sm transition-transform duration-200"></i>
+                        <i class="fas fa-chevron-down text-sm transition-transform duration-200" :class="showMobileAbout ? 'rotate-180' : ''"></i>
                     </button>
                     
-                    <div x-show="showAbout" @click.away="showAbout = false" class="mt-2 ml-2 space-y-1">
+                    <div x-show="showMobileAbout" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-end="opacity-0 -translate-y-2"
+                         @click.away="showMobileAbout = false"
+                         class="mt-2 ml-2 space-y-1">
                         <a href="{{ url('/about-us') }}" class="block mobile-sub-link {{ request()->is('about-us') ? 'mobile-sub-active' : '' }}">About Us</a>
                         <a href="{{ url('/our-aim') }}" class="block mobile-sub-link {{ request()->is('our-aim') ? 'mobile-sub-active' : '' }}">Our Aim</a>
                         <a href="{{ url('/team') }}" class="block mobile-sub-link {{ request()->is('team') ? 'mobile-sub-active' : '' }}">Team</a>
@@ -180,10 +187,17 @@
             box-shadow: 0 4px 12px rgba(251, 146, 60, 0.25);
         }
 
+        .active-dropdown .nav-link {
+            background: rgba(251, 146, 60, 0.2) !important;
+            color: #ea580c !important;
+            box-shadow: 0 4px 12px rgba(251, 146, 60, 0.25);
+        }
+
         .dropdown-item { 
             transition: all 0.2s ease; color: #374151; 
             font-weight: 500; border-radius: 8px;
         }
+        .dropdown-item:hover { color: #ea580c; }
 
         /* MOBILE */
         .mobile-link {
@@ -240,10 +254,8 @@
                 <p class="text-slate-300">{{ $homeSetting->footer_description ?? 'Your trusted IT partner.' }}</p>
             </div>
             
-            {{-- CONTACT US + QUICK LINKS + FOLLOW US - SAME ROW --}}
             <div class="md:col-span-2">
                 <div class="grid md:grid-cols-3 gap-8">
-                    {{-- Contact Us --}}
                     <div>
                         <h4 class="text-xl font-bold mb-6 text-white"><a href="/contact-us">Contact Us</a></h4>
                         <div class="space-y-4 text-slate-300">
@@ -253,10 +265,9 @@
                         </div>
                     </div>
                     
-                    {{-- NAVBAR PAGES LINKS - VERTICAL (ONE AFTER ANOTHER) --}}
                     <div>
                         <h4 class="text-xl font-bold mb-2 text-white">Quick Links</h4>
-                        <div class="flex flex flex-col">
+                        <div class="flex flex-col">
                             @if(isset($footerPages) && count($footerPages) > 0)
                                 @foreach($footerPages as $page)
                                     <a href="{{ url($page->slug) }}" class="footer-pages-link">
@@ -264,7 +275,6 @@
                                     </a>
                                 @endforeach
                             @else
-                                {{-- FALLBACK DEFAULT LINKS - VERTICAL --}}
                                 <div class="flex flex-col">
                                     <a href="{{ url('/') }}" class="footer-pages-link">Home</a>
                                     <a href="{{ url('/services') }}" class="footer-pages-link">Services</a>
@@ -276,7 +286,6 @@
                         </div>
                     </div>
                     
-                    {{-- Follow Us - SAME LINE --}}
                     <div>
                         <h4 class="text-xl font-bold mb-6 text-white">Follow Us</h4>
                         <div class="flex gap-4">

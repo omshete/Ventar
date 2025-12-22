@@ -16,6 +16,7 @@ use App\Models\ContactSetting;
 use App\Models\HomeHero;
 use App\Models\Career;
 use App\Mail\ContactMessageMail;
+use App\Mail\CareerApplicationMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
@@ -76,7 +77,7 @@ class SiteController extends Controller
         $homeTitle = $this->getSettingValue('hero_title', 'Ventar – Your IT Service Partner');
         $homeText  = $this->getSettingValue('hero_text', 'Ventar delivers scalable, secure, and modern digital solutions.');
 
-        // Optional: dynamic Home Hero from DB (if you created HomeHero)
+        // Optional: dynamic Home Hero from DB
         $hero = null;
         try {
             $hero = HomeHero::where('is_active', 1)
@@ -84,7 +85,6 @@ class SiteController extends Controller
                 ->orderBy('id')
                 ->first();
             if ($hero) {
-                // if hero exists, override text used in the view
                 $homeTitle = $hero->title;
                 $homeText  = $hero->description ?? $homeText;
             }
@@ -101,7 +101,6 @@ class SiteController extends Controller
             $ourStory = null;
         }
 
-        // The layout uses shared $homeSetting from AppServiceProvider (home_settings table)
         return view('site.home', compact(
             'blogs',
             'services',
@@ -119,13 +118,11 @@ class SiteController extends Controller
     public function about()
     {
         try {
-            // Get FIRST active about
             $about = AboutUs::where('is_active', 1)
                 ->orderBy('sort_order', 'asc')
                 ->orderBy('id', 'asc')
                 ->first();
 
-            // If no active about, get any record (or null if none)
             if (! $about) {
                 $about = AboutUs::orderBy('id')->first();
             }
@@ -234,9 +231,8 @@ class SiteController extends Controller
             $contacts = ContactSetting::where('is_active', true)
                 ->orderBy('sort_order', 'asc')
                 ->get();
-            
-            // NEW: Load active career for contact page right card
-            $career = \App\Models\Career::where('is_active', true)
+
+            $career = Career::where('is_active', true)
                 ->orderBy('sort_order')
                 ->first();
         } catch (\Throwable $e) {
@@ -244,7 +240,7 @@ class SiteController extends Controller
             $contacts = collect();
             $career = null;
         }
-        
+
         return view('site.contact', compact('contacts', 'career'));
     }
 
@@ -254,58 +250,55 @@ class SiteController extends Controller
     public function careers()
     {
         try {
-            $careers = \App\Models\Career::where('is_active', true)
+            $careers = Career::where('is_active', true)
                 ->orderBy('sort_order')
                 ->get();
         } catch (\Throwable $e) {
             \Log::error('Careers page load error: ' . $e->getMessage());
             $careers = collect();
         }
-        
+
         return view('site.careers', compact('careers'));
     }
 
- /**
- * Careers application - DEBUG VERSION
- */
-public function apply(Request $request)
+    /**
+     * Show apply form for one job
+     */
+    public function careerApplyForm($career)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'portfolio' => 'nullable|url|max:500',
-            'cover_letter' => 'nullable|string|max:2000',
-            'job_title' => 'required|string|max:255',
-            'job_location' => 'required|string|max:255',
-            'job_type' => 'required|string|max:100',
-        ]);
+        $careerModel = Career::where('is_active', true)
+            ->where('id', $career)
+            ->firstOrFail();
 
-        try {
-            // Send email to adinath@ventar.in
-            Mail::raw($this->buildApplicationEmail($request->all()), function ($message) {
-                $message->to('adinath@ventar.in')
-                        ->subject('🆕 New Job Application: ' . request('job_title'))
-                        ->from(config('mail.from.address', 'noreply@ventar.in'), 'Ventar Careers');
-            });
-
-            Log::info('Job application received from ' . $request->email, $request->all());
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Application sent successfully to adinath@ventar.in!'
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('Job application failed: ' . $e->getMessage(), $request->all());
-            
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to send application. Please try again later.'
-            ], 500);
-        }
+        return view('site.career-apply', ['career' => $careerModel]);
     }
 
+    /**
+     * Handle career application submit
+     */
+    public function submitCareer(Request $request)
+        {
+            $data = $request->validate([
+                'name'         => ['required', 'string', 'max:255'],
+                'email'        => ['required', 'email', 'max:255'],
+                'phone'        => ['nullable', 'string', 'max:50'],
+                'portfolio'    => ['nullable', 'string', 'max:255'],
+                'cover_letter' => ['nullable', 'string'],
+                'job_title'    => ['required', 'string', 'max:255'],
+                'job_location' => ['required', 'string', 'max:255'],
+                'job_type'     => ['required', 'string', 'max:255'],
+                'resume'       => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:2048'],
+            ]);
+
+            // Pass the UploadedFile instance (or null) to the Mailable
+            $resumeFile = $request->file('resume');
+
+            Mail::to('adinath@ventar.in')->send(
+                new \App\Mail\CareerApplicationMail($data, $resumeFile)
+            );
+
+            return back()->with('success', 'Your application has been sent successfully.');
+        }
 
 
     /**

@@ -65,5 +65,11 @@
         <p class="text-3xl font-bold">{{ \App\Models\ContactSetting::count() }}</p>
     </div>
 
+    {{-- Careers --}}
+    <div class="bg-white rounded-xl shadow p-5">
+        <h2 class="text-sm text-slate-500">Careers</h2>
+        <p class="text-3xl font-bold">{{ \App\Models\Career::count() }}</p>
+    </div>
+
 </div>
 @endsection

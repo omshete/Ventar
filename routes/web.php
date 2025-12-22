@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\AimController;
 use App\Http\Controllers\Admin\HomeHeroController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\CareerController;
-
+use App\Http\Controllers\CareerController as PublicCareerController;
 /*
 |--------------------------------------------------------------------------
 | Public site routes
@@ -34,9 +34,18 @@ Route::get('/blogs/{blog}', [SiteController::class, 'blogDetail'])->name('blogs.
 Route::get('/contact-us', [SiteController::class, 'contact'])->name('contact');
 Route::post('/contact-us', [SiteController::class, 'submitContact'])->name('contact.submit');
 
-// ← CAREERS ROUTES
+/// careers listing
 Route::get('/careers', [SiteController::class, 'careers'])->name('careers');
-Route::post('/careers/apply', [SiteController::class, 'apply'])->name('careers.apply'); // ← ADD THIS
+
+// new: show apply form for one job
+Route::get('/careers/apply/{career}', [SiteController::class, 'careerApplyForm'])->name('careers.apply.form');
+
+// new: handle form submit
+Route::post('/careers/apply', [SiteController::class, 'submitCareer'])->name('careers.apply');
+
+// contact (unchanged)
+Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
+Route::post('/contact', [SiteController::class, 'submitContact'])->name('contact.submit');
 
 /*
 |--------------------------------------------------------------------------
@@ -102,8 +111,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->names('contact-settings');
 
         // ← NEW: Careers CRUD (inside admin.auth middleware)
-        Route::get('/careers', [SiteController::class, 'careers'])->name('careers');
-        Route::post('/careers/apply', [SiteController::class, 'apply'])->name('careers.apply');
+        
         Route::resource('careers', CareerController::class);
     });
 });
