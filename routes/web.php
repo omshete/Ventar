@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\AboutUsController;
 use App\Http\Controllers\Admin\AimController;
 use App\Http\Controllers\Admin\HomeHeroController;
 use App\Http\Controllers\Admin\ContactSettingController;
-use App\Http\Controllers\Admin\CareerController; // ← NEW: Added
+use App\Http\Controllers\Admin\CareerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,8 +34,9 @@ Route::get('/blogs/{blog}', [SiteController::class, 'blogDetail'])->name('blogs.
 Route::get('/contact-us', [SiteController::class, 'contact'])->name('contact');
 Route::post('/contact-us', [SiteController::class, 'submitContact'])->name('contact.submit');
 
-// ← NEW: Careers route (REPLACED closure with controller)
+// ← CAREERS ROUTES
 Route::get('/careers', [SiteController::class, 'careers'])->name('careers');
+Route::post('/careers/apply', [SiteController::class, 'apply'])->name('careers.apply'); // ← ADD THIS
 
 /*
 |--------------------------------------------------------------------------
@@ -44,14 +45,12 @@ Route::get('/careers', [SiteController::class, 'careers'])->name('careers');
 */
 
 Route::prefix('admin')->name('admin.')->group(function () {
-
     // Public login routes (no auth required)
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.show');
     Route::post('login', [AuthController::class, 'login'])->name('login');
 
     // Protected routes (require admin.auth middleware)
     Route::middleware('admin.auth')->group(function () {
-
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::get('dashboard', function () {
@@ -103,6 +102,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->names('contact-settings');
 
         // ← NEW: Careers CRUD (inside admin.auth middleware)
+        Route::get('/careers', [SiteController::class, 'careers'])->name('careers');
+        Route::post('/careers/apply', [SiteController::class, 'apply'])->name('careers.apply');
         Route::resource('careers', CareerController::class);
     });
 });

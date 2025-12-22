@@ -14,9 +14,10 @@ use App\Models\Aim;
 use App\Models\AboutUs;
 use App\Models\ContactSetting;
 use App\Models\HomeHero;
-use App\Models\Career; // ← NEW: Added for careers
+use App\Models\Career;
 use App\Mail\ContactMessageMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class SiteController extends Controller
 {
@@ -263,6 +264,49 @@ class SiteController extends Controller
         
         return view('site.careers', compact('careers'));
     }
+
+ /**
+ * Careers application - DEBUG VERSION
+ */
+public function apply(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'portfolio' => 'nullable|url|max:500',
+            'cover_letter' => 'nullable|string|max:2000',
+            'job_title' => 'required|string|max:255',
+            'job_location' => 'required|string|max:255',
+            'job_type' => 'required|string|max:100',
+        ]);
+
+        try {
+            // Send email to adinath@ventar.in
+            Mail::raw($this->buildApplicationEmail($request->all()), function ($message) {
+                $message->to('adinath@ventar.in')
+                        ->subject('🆕 New Job Application: ' . request('job_title'))
+                        ->from(config('mail.from.address', 'noreply@ventar.in'), 'Ventar Careers');
+            });
+
+            Log::info('Job application received from ' . $request->email, $request->all());
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Application sent successfully to adinath@ventar.in!'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Job application failed: ' . $e->getMessage(), $request->all());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send application. Please try again later.'
+            ], 500);
+        }
+    }
+
+
 
     /**
      * Contact form submission
