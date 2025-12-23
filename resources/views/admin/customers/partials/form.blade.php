@@ -8,7 +8,7 @@
     <label class="block text-sm font-medium mb-1">Name *</label>
     <input type="text" name="name"
            value="{{ old('name', $customer->name ?? '') }}"
-           class="w-full border rounded-lg px-3 py-2" required>
+           class="w-full border rounded-lg px-3 py-2">
 </div>
 
 <div>

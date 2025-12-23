@@ -227,37 +227,103 @@
 <section id="customers" class="scroll-animate py-24 bg-slate-100">
     <div class="max-w-6xl mx-auto px-6 scroll-animate">
         <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-4">Our Customers</h2>
-            <p class="text-xl text-slate-700 max-w-2xl mx-auto">Brands and businesses that trust Ventar for reliable IT solutions.</p>
+            <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-4">
+                Our Customers
+            </h2>
+            <p class="text-xl text-slate-700 max-w-2xl mx-auto">
+                Brands and businesses that trust Ventar for reliable IT solutions.
+            </p>
         </div>
 
         @if(isset($customers) && $customers->count() > 0)
-            <div class="grid gap-8 md:grid-cols-3 lg:grid-cols-4">
-                @foreach($customers as $customer)
-                    <div class="group bg-white/90 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-orange-100">
-                        <div class="flex items-center justify-center mb-4 h-16">
-                            @if($customer->logo_path)
-                                <img src="{{ asset('storage/'.$customer->logo_path) }}" alt="{{ $customer->name }}" class="max-h-14 w-auto object-contain">
-                            @else
-                                <span class="text-2xl font-bold text-slate-400">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
+
+            {{-- SINGLE LINE CONTAINER --}}
+            <div class="overflow-hidden relative">
+                <div class="customer-marquee flex flex-nowrap gap-8 w-max">
+
+                    @foreach($customers as $customer)
+                        <div
+                            class="group bg-white/90 rounded-3xl p-6 shadow-sm
+                                   hover:shadow-xl transition-all duration-300
+                                   hover:-translate-y-2 border border-orange-100
+                                   min-w-[220px] flex-shrink-0"
+                        >
+                            <div class="flex items-center justify-center mb-4 h-16">
+                                @if($customer->logo_path)
+                                    <img
+                                        src="{{ asset('storage/'.$customer->logo_path) }}"
+                                        alt="{{ $customer->name }}"
+                                        class="max-h-14 w-auto object-contain"
+                                    >
+                                @else
+                                    <span class="text-2xl font-bold text-slate-400">
+                                        {{ strtoupper(substr($customer->name, 0, 1)) }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            <h3 class="text-lg font-semibold text-slate-900 text-center mb-1">
+                                {{ $customer->name }}
+                            </h3>
+
+                            @if($customer->company_name)
+                                <p class="text-sm text-slate-700 text-center mb-1">
+                                    {{ $customer->company_name }}
+                                </p>
+                            @endif
+
+                            @if($customer->address)
+                                <p class="text-xs text-slate-500 text-center">
+                                    {{ $customer->address }}
+                                </p>
                             @endif
                         </div>
-                        <h3 class="text-lg font-semibold text-slate-900 text-center mb-1">{{ $customer->name }}</h3>
-                        @if($customer->company_name)
-                            <p class="text-sm text-slate-700 text-center mb-1">{{ $customer->company_name }}</p>
-                        @endif
-                        @if($customer->address)
-                            <p class="text-xs text-slate-500 text-center">{{ $customer->address }}</p>
-                        @endif
-                    </div>
-                @endforeach
+                    @endforeach
+
+                </div>
             </div>
+
+            {{-- AUTO SCROLL STYLE --}}
+            <style>
+                .customer-marquee {
+                    animation: customer-scroll 30s linear infinite;
+                }
+
+                .customer-marquee:hover {
+                    animation-play-state: paused;
+                }
+
+                @keyframes customer-scroll {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(-50%);
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .customer-marquee {
+                        animation-duration: 20s;
+                    }
+                }
+
+                @media (prefers-reduced-motion: reduce) {
+                    .customer-marquee {
+                        animation: none;
+                    }
+                }
+            </style>
+
         @else
             <div class="text-center py-16">
-                <p class="text-lg text-slate-500">Customers will appear here once added from the admin panel.</p>
+                <p class="text-lg text-slate-500">
+                    Customers will appear here once added from the admin panel.
+                </p>
             </div>
         @endif
     </div>
 </section>
+
 
 @endsection

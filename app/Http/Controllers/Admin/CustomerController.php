@@ -24,12 +24,11 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'         => 'required|string|max:255',
-            'company_name' => 'nullable|string|max:255',
-            'address'      => 'nullable|string|max:255',
-            'details'      => 'nullable|string',
-            'logo' => 'nullable|mimes:jpeg,jpg,png,gif,webp|max:2048',
-
+            'name'          => 'nullable|string|max:255',
+            'company_name'  => 'nullable|string|max:255',
+            'address'       => 'nullable|string|max:255',
+            'details'       => 'nullable|string',
+            'logo'          => 'nullable|mimes:jpeg,jpg,png,gif,webp|max:2048',
         ]);
 
         if ($request->hasFile('logo')) {
@@ -50,11 +49,11 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $data = $request->validate([
-            'name'         => 'required|string|max:255',
-            'company_name' => 'nullable|string|max:255',
-            'address'      => 'nullable|string|max:255',
-            'details'      => 'nullable|string',
-            'logo'         => 'nullable|image|max:2048',
+            'name'          => 'nullable|string|max:255',
+            'company_name'  => 'nullable|string|max:255',
+            'address'       => 'nullable|string|max:255',
+            'details'       => 'nullable|string',
+            'logo'          => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('logo')) {

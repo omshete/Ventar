@@ -280,7 +280,7 @@
                                     <a href="{{ url('/services') }}" class="footer-pages-link">Services</a>
                                     <a href="{{ url('/about-us') }}" class="footer-pages-link">About</a>
                                     <a href="{{ url('/blogs') }}" class="footer-pages-link">Blogs</a>
-                                    <a href="{{ url('/contact-us') }}" class="footer-pages-link">Contact</a>
+                                    <a href="{{ url('/careers') }}" class="footer-pages-link">Careers</a>
                                 </div>
                             @endif
                         </div>

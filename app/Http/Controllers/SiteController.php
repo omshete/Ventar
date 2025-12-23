@@ -293,7 +293,7 @@ class SiteController extends Controller
             // Pass the UploadedFile instance (or null) to the Mailable
             $resumeFile = $request->file('resume');
 
-            Mail::to('adinath@ventar.in')->send(
+            Mail::to('recruit@ventar.in')->send(
                 new \App\Mail\CareerApplicationMail($data, $resumeFile)
             );
 
@@ -316,7 +316,7 @@ class SiteController extends Controller
 
         Contact::create($data);
 
-        Mail::to('adinath@ventar.in')->send(new ContactMessageMail($data));
+        Mail::to('recruit@ventar.in')->send(new ContactMessageMail($data));
 
         return back()->with('success', 'Your message has been sent successfully.');
     }
